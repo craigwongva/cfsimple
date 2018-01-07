@@ -272,7 +272,7 @@ Resources:
                 -
                   Name: ValidatedTestStack
               Configuration:
-                White: house
+                ProjectName: house
 #                ProjectName: "choreography" #!Ref ValidateResourceProject
               RunOrder: 2
 ###end############################
