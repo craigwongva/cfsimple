@@ -177,10 +177,12 @@ Resources:
         ComputeType: BUILD_GENERAL1_SMALL
         Image: aws/codebuild/python:2.7.12
       Source:
-        Location:
-          Fn::Sub: https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/${ValidateResourcesRepoName}
-        Type: CODECOMMIT
-      TimeoutInMinutes: 15
+#        Location:
+#          Fn::Sub: https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/${ValidateResourcesRepoName}
+#        Type: CODECOMMIT
+        Location: https://github.com/craigwongva/wordpress-build-test
+        Type: OAUTH
+      TimeoutInMinutes: 5 #15
       EncryptionKey:
         Fn::Sub: arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3
       Tags:
