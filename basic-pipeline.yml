@@ -239,25 +239,25 @@ Resources:
                 - Name: TemplateSource                
               RunOrder: 1
 
-        - Name: TestStage
-          Actions:
-            - Name: CreateStack
-              ActionTypeId:
-                Category: Deploy
-                Owner: AWS
-                Provider: CloudFormation
-                Version: '1'
-              InputArtifacts:
-                - Name: TemplateSource
-              Configuration:
-                ActionMode: REPLACE_ON_FAILURE
-                RoleArn: !GetAtt [CFNRole, Arn]
-                StackName: !Ref TestStackName
-                TemplateConfiguration: !Sub "TemplateSource::${TestStackConfig}"
-                TemplatePath: !Sub "TemplateSource::${TemplateFileName}"
-                OutputArtifacts:
-                  - Name: PeachOutputArtifact
-              RunOrder: '1'
+#        - Name: TestStage
+#          Actions:
+#            - Name: CreateStack
+#              ActionTypeId:
+#                Category: Deploy
+#                Owner: AWS
+#                Provider: CloudFormation
+#                Version: '1'
+#              InputArtifacts:
+#                - Name: TemplateSource
+#              Configuration:
+#                ActionMode: REPLACE_ON_FAILURE
+#                RoleArn: !GetAtt [CFNRole, Arn]
+#                StackName: !Ref TestStackName
+#                TemplateConfiguration: !Sub "TemplateSource::${TestStackConfig}"
+#                TemplatePath: !Sub "TemplateSource::${TemplateFileName}"
+#                OutputArtifacts:
+#                  - Name: PeachOutputArtifact
+#              RunOrder: '1'
 #            -
 #              Name: ValidateTestStack
 #              InputArtifacts:
