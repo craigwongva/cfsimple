@@ -204,39 +204,38 @@ Resources:
       RoleArn: !GetAtt [PipelineRole, Arn]
       Stages:
 #This section does this: s/s3/github/
-        - Name: S3Source
-          Actions:
-            - Name: TemplateSource
-              ActionTypeId:
-                Category: Source
-                Owner: AWS
-                Provider: S3
-                Version: '1'
-              Configuration:
-                S3Bucket: !Ref 'S3Bucket'
-                S3ObjectKey: !Ref 'SourceS3Key'
-              OutputArtifacts:
-                - Name: TemplateSource
-              RunOrder: '1'
 #        - Name: S3Source
 #          Actions:
 #            - Name: TemplateSource
 #              ActionTypeId:
 #                Category: Source
-#                Owner: ThirdParty
-#                Version: 1
-#                Provider: GitHub
+#                Owner: AWS
+#                Provider: S3
+#                Version: '1'
 #              Configuration:
-#                Owner: craigwongva
-#                Repo: wordpress-build-test #aws-code-deploy-linux
-#                PollForSourceChanges: false #true
-#                Branch: master
-#                OAuthToken: !Ref githubpassword
+#                S3Bucket: !Ref 'S3Bucket'
+#                S3ObjectKey: !Ref 'SourceS3Key'
 #              OutputArtifacts:
-#                - Name: TemplateSource                
-#              RunOrder: 1
+#                - Name: TemplateSource
+#              RunOrder: '1'
+        - Name: S3Source
+          Actions:
+            - Name: TemplateSource
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Version: 1
+                Provider: GitHub
+              Configuration:
+                Owner: craigwongva
+                Repo: wordpress-build-test #aws-code-deploy-linux
+                PollForSourceChanges: false #true
+                Branch: master
+                OAuthToken: !Ref githubpassword
+              OutputArtifacts:
+                - Name: TemplateSource                
+              RunOrder: 1
 
-#This section hide this: github versus s3 for CF yaml              
         - Name: TestStage
           Actions:
             - Name: CreateStack
@@ -254,23 +253,7 @@ Resources:
                 TemplateConfiguration: !Sub "TemplateSource::${TestStackConfig}"
                 TemplatePath: !Sub "TemplateSource::${TemplateFileName}"
               RunOrder: '1'
-#        - Name: TestStage
-#          Actions:
-#            - Name: CreateStack
-#              ActionTypeId:
-#                Category: Deploy
-#                Owner: AWS
-#                Provider: CloudFormation
-#                Version: '1'
-#              InputArtifacts:
-#                - Name: TemplateSource
-#              Configuration:
-#                ActionMode: REPLACE_ON_FAILURE
-#                RoleArn: !GetAtt [CFNRole, Arn]
-#                StackName: !Ref TestStackName
-#                TemplateConfiguration: "TemplateSource::test-stack-configuration.json"
-#                TemplatePath: "TemplateSource::wordpress-single-instance.yaml"
-#              RunOrder: '1'              
+
             - Name: ApproveTestStack
               ActionTypeId:
                 Category: Approval
