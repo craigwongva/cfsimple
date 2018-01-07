@@ -1,0 +1,86 @@
+https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-
+
+delivery-codepipeline-basic-walkthrough.html
+
+https://s3.amazonaws.com/cloudformation-examples/user-guide/continuous-
+
+deployment/basic-pipeline.yml.
+
+aws cloudformation create-stack \
+--stack-name sample-Wordpress-pipeline \ 
+--template-body file://basic-pipeline.yml \ 
+--region us-west-2 \
+--capabilities CAPABILITY_NAMED_IAM \
+--parameters \
+ParameterKey=PipelineName,ParameterValue=WordPress-test-pipeline \ 
+
+ParameterKey=S3Bucket,ParameterValue=redf4rth-root-oregon \ 
+ParameterKey=SourceS3Key,ParameterValue=wordpress-pipeline/wordpress.zip \
+ParameterKey=Email,ParameterValue=craigjk@cox.net
+
+vi delete-versioned-bucket.py
+
+BUCKET = 'your-bucket-here'
+
+import boto3
+
+s3 = boto3.resource('s3')
+bucket = s3.Bucket(BUCKET)
+bucket.object_versions.delete()
+
+# if you want to delete the now-empty bucket as well, uncomment this line:
+#bucket.delete()
+
+sudo pip install boto3
+   
+python delete-versioned-bucket.py 
+   
+aws cloudformation delete-stack --stack-name sample-Wordpress-pipeline
+
+--
+how to zip three files and deploy to S3
+
+
+   14  wget  https://s3.amazonaws.com/cloudformation-examples/user-
+
+guide/continuous-deployment/wordpress-single-instance.zip
+
+   15  unzip wordpress-single-instance.zip
+
+
+   17  mkdir down
+
+   18  mv *stack-configuration.json down/
+
+   19  mv wordpress-single-instance.yaml down/
+
+   26  cd down
+
+  105  cd down
+  
+  106  zip -r ../wordpress.zip .
+  
+  107  aws s3 cp ../wordpress.zip s3://redf4rth-root-oregon/wordpress-pipeline/
+--
+
+use this before decoding: :1,$s#\\"#"#g
+Then there's an extra " before the second { and then one by itself at the end of 
+
+the string.
+aws sts decode-authorization-message --encoded-message
+
+The key - after 3+ hours debugging - is to add to the CloudFormation role an 
+
+action 'IAM:PassRole' (in basic-pipeline.yml line 208). This enables at least CF 
+
+to create an instance with an empty PipelineCreateInstanceRole ( wordpress-
+
+single-instance.yaml)
+
+next: preserve s3://redf4rth-root-oregon/wordpress-pipeline/wordpress.zip into a 
+
+GitHub repo, along with this content, so that I have a more permanent record of 
+
+today's successes. As a matter of fact, I'm going to toss basic-pipeline.yml up 
+
+there temporarily.

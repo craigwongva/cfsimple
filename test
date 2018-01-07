@@ -1,0 +1,7 @@
+python delete-versioned-bucket.py $1
+aws cloudformation delete-stack --stack-name Test-MyWordPressSite --region us-west-2
+sleep 30
+aws cloudformation delete-stack --stack-name sample-Wordpress-pipeline --region us-west-2 
+sleep 30
+aws cloudformation create-stack --stack-name sample-Wordpress-pipeline --template-body file://basic-pipeline.yml --region us-west-2 --capabilities CAPABILITY_NAMED_IAM --parameters ParameterKey=PipelineName,ParameterValue=WordPress-test-pipeline ParameterKey=S3Bucket,ParameterValue=redf4rth-root-oregon ParameterKey=SourceS3Key,ParameterValue=wordpress-pipeline/wordpress.zip ParameterKey=Email,ParameterValue=craigjk@cox.net
+sleep 82
