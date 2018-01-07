@@ -249,6 +249,8 @@ Resources:
                 Version: '1'
               InputArtifacts:
                 - Name: TemplateSource
+              OutputArtifacts:
+                - Name: PeachArtifact
               Configuration:
                 ActionMode: REPLACE_ON_FAILURE
                 RoleArn: !GetAtt [CFNRole, Arn]
@@ -262,7 +264,7 @@ Resources:
               Name: ValidateTestStack
               InputArtifacts:
                 -
-                  Name: PeachOutputArtifact
+                  Name: PeachArtifact
               ActionTypeId:
                 Category: Test
                 Owner: AWS
