@@ -7,7 +7,7 @@ with open('env-details.yml', 'r') as f:
     doc = yaml.load(f)
 
 flag = False
-sys.exit(-2)
+sys.exit(0)
 
 try:
     for cmd, props in doc.iteritems():
