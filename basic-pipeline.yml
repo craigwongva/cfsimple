@@ -162,37 +162,39 @@ Resources:
                   - Fn::Sub: arn:aws:s3:::${ArtifactStoreBucket}/*
                   - Fn::Sub: arn:aws:s3:::${ArtifactStoreBucket}/*
 
-#  ValidateResourceProject:
-#    Type: AWS::CodeBuild::Project
-#    Properties:
-#      Name:
-#        Fn::Sub: ValidateResource-${AWS::StackName}
-#      Description: Test build to validate the resources created by CFN templates
-#      ServiceRole:
-#        Fn::GetAtt: [ CodeBuildRole, Arn ]
-#      Artifacts:
-#        Type: S3
-#        Location: !Ref 'ArtifactStoreBucket'
+  ValidateResourceProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name:
+        Fn::Sub: ValidateResource-${AWS::StackName}
+      Description: Test build to validate the resources created by CFN templates
+      ServiceRole:
+        Fn::GetAtt: [ CodeBuildRole, Arn ]
+      Artifacts:
+        Type: S3
+        Location: !Ref 'ArtifactStoreBucket'
 ##         Location: !Ref: ArtifactStoreS3Location 
-#        Name:
-#          Fn::Sub: ValidateResource-${AWS::StackName}
-#      Environment:
-#        Type: LINUX_CONTAINER
-#        ComputeType: BUILD_GENERAL1_SMALL
-#        Image: aws/codebuild/python:2.7.12
-#      Source:
+        Name:
+          Fn::Sub: ValidateResource-${AWS::StackName}
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/python:2.7.12
+      Source:
 #        Location:
 #          Fn::Sub: https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/${ValidateResourcesRepoName}
 #        Type: CODECOMMIT
-##        Location: https://github.com/craigwongva/wordpress-build-test
-##        Type: OAUTH
-#      TimeoutInMinutes: 5 #15
-#      EncryptionKey:
-#        Fn::Sub: arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3
-#      Tags:
-#        - Key: Name
-#          Value:
-#            Fn::Sub: ValidateResource-${AWS::StackName}
+        Location: https://github.com/craigwongva/wordpress-build-test
+        Type: GITHUB
+        Auth: 
+          Type: OAUTH
+      TimeoutInMinutes: 5 #15
+      EncryptionKey:
+        Fn::Sub: arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3
+      Tags:
+        - Key: Name
+          Value:
+            Fn::Sub: ValidateResource-${AWS::StackName}
             
   Pipeline:
     Type: AWS::CodePipeline::Pipeline
