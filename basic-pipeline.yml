@@ -255,8 +255,26 @@ Resources:
                 StackName: !Ref TestStackName
                 TemplateConfiguration: !Sub "TemplateSource::${TestStackConfig}"
                 TemplatePath: !Sub "TemplateSource::${TemplateFileName}"
+                OutputArtifacts:
+                  - Name: PeachOutputArtifact
               RunOrder: '1'
-
+#            -
+#              Name: ValidateTestStack
+#              InputArtifacts:
+#                -
+#                  Name: PeachOutputArtifact
+#              ActionTypeId:
+#                Category: Test
+#                Owner: AWS
+#                Version: 1
+#                Provider: CodeBuild
+#              OutputArtifacts:
+#                -
+#                  Name: ValidatedTestStack
+#              Confiiiiguration:
+#                PrrrojectName: "choreography" #!Ref ValidateResourceProject
+#              RunOrder: 2
+            
             - Name: ApproveTestStack
               ActionTypeId:
                 Category: Approval
