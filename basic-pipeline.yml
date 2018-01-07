@@ -6,8 +6,6 @@ Description: >
   process for AWS CloudFormation stacks. Submit a CloudFormation source artifact
   to an Amazon S3 location before building the pipeline. The pipeline uses the
   artifact to automatically create stacks and change sets.
-  **WARNING** This template creates an Amazon EC2 instance. You will be billed
-  for the AWS resources used when you create a stack using this template.
 
 Parameters:
   PipelineName:
@@ -47,7 +45,8 @@ Parameters:
   Email:
     Description: The email address where CodePipeline sends pipeline notifications
     Type: String
-
+  githubpassword:
+    Type: String
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
@@ -95,20 +94,56 @@ Resources:
       Name: !Ref 'PipelineName'
       RoleArn: !GetAtt [PipelineRole, Arn]
       Stages:
+#This section does this: s/s3/github/
+#        - Name: S3Source
+#          Actions:
+#            - Name: TemplateSource
+#              ActionTypeId:
+#                Category: Source
+#                Owner: AWS
+#                Provider: S3
+#                Version: '1'
+#              Configuration:
+#                S3Bucket: !Ref 'S3Bucket'
+#                S3ObjectKey: !Ref 'SourceS3Key'
+#              OutputArtifacts:
+#                - Name: TemplateSource
+#              RunOrder: '1'
         - Name: S3Source
           Actions:
             - Name: TemplateSource
               ActionTypeId:
                 Category: Source
-                Owner: AWS
-                Provider: S3
-                Version: '1'
+                Owner: ThirdParty
+                Version: 1
+                Provider: GitHub
               Configuration:
-                S3Bucket: !Ref 'S3Bucket'
-                S3ObjectKey: !Ref 'SourceS3Key'
+                Owner: craigwongva
+                Repo: wordpress-build-test #aws-code-deploy-linux
+                PollForSourceChanges: false #true
+                Branch: master
+                OAuthToken: !Ref githubpassword
               OutputArtifacts:
-                - Name: TemplateSource
-              RunOrder: '1'
+                - Name: TemplateSource                
+              RunOrder: 1
+#This section does this: use github not s3 for CF yaml              
+#        - Name: TestStage
+#          Actions:
+#            - Name: CreateStack
+#              ActionTypeId:
+#                Category: Deploy
+#                Owner: AWS
+#                Provider: CloudFormation
+#                Version: '1'
+#              InputArtifacts:
+#                - Name: TemplateSource
+#              Configuration:
+#                ActionMode: REPLACE_ON_FAILURE
+#                RoleArn: !GetAtt [CFNRole, Arn]
+#                StackName: !Ref TestStackName
+#                TemplateConfiguration: !Sub "TemplateSource::${TestStackConfig}"
+#                TemplatePath: !Sub "TemplateSource::${TemplateFileName}"
+#              RunOrder: '1'
         - Name: TestStage
           Actions:
             - Name: CreateStack
@@ -123,9 +158,9 @@ Resources:
                 ActionMode: REPLACE_ON_FAILURE
                 RoleArn: !GetAtt [CFNRole, Arn]
                 StackName: !Ref TestStackName
-                TemplateConfiguration: !Sub "TemplateSource::${TestStackConfig}"
-                TemplatePath: !Sub "TemplateSource::${TemplateFileName}"
-              RunOrder: '1'
+                TemplateConfiguration: "TemplateSource::test-stack-configuration.json"
+                TemplatePath: "TemplateSource::wordpress-single-instance.yaml"
+              RunOrder: '1'              
             - Name: ApproveTestStack
               ActionTypeId:
                 Category: Approval
