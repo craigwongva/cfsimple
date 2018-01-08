@@ -274,7 +274,7 @@ Resources:
                 -
                   Name: ValidatedTestStack
               Configuration:
-                ProjectName: house
+                ProjectName: ValidateResource-sample-Wordpress-pipeline #house
 #                ProjectName: "choreography" #!Ref ValidateResourceProject
               RunOrder: 2
 ###end############################
