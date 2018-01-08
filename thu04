@@ -19,6 +19,8 @@ ParameterKey=S3Bucket,ParameterValue=redf4rth-root-oregon \
 ParameterKey=SourceS3Key,ParameterValue=wordpress-pipeline/wordpress.zip \
 ParameterKey=Email,ParameterValue=craigjk@cox.net
 
+aws cloudformation create-stack --stack-name sample-Wordpress-pipeline --template-body file://basic-pipeline.yml --region us-west-2 --capabilities CAPABILITY_NAMED_IAM --parameters ParameterKey=PipelineName,ParameterValue=WordPress-test-pipeline ParameterKey=S3Bucket,ParameterValue=redf4rth-root-oregon ParameterKey=SourceS3Key,ParameterValue=wordpress-pipeline/wordpress.zip ParameterKey=Email,ParameterValue=craigjk@cox.net ParameterKey=githubpassword,ParameterValue=REDACTED
+
 vi delete-versioned-bucket.py
 
 BUCKET = 'your-bucket-here'
