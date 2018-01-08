@@ -390,5 +390,6 @@ Resources:
                 - 'cloudformation:SetStackPolicy'
                 - 'iam:PassRole'
                 - 'sns:Publish'
+                - 'codebuild:*'
                 Effect: Allow
                 Resource: '*'
