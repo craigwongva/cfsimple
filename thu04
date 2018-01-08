@@ -1,10 +1,11 @@
-https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-
+https://github.com/awslabs/codepipeline-nested-cfn
 
-delivery-codepipeline-basic-walkthrough.html
+https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-basic-walkthrough.html and https://github.com/awslabs/codepipeline-nested-cfn and my stuff combined.
 
-https://s3.amazonaws.com/cloudformation-examples/user-guide/continuous-
 
-deployment/basic-pipeline.yml.
+https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-basic-walkthrough.html
+
+https://s3.amazonaws.com/cloudformation-examples/user-guide/continuous-deployment/basic-pipeline.yml.
 
 aws cloudformation create-stack \
 --stack-name sample-Wordpress-pipeline \ 
@@ -93,3 +94,6 @@ recommended process.
 I created a new pipeline ('tample' prefix instead of 'sample' prefix). When I came back
 from upstairs, the old problem was gone!
 
+Sunday 9:50pm:
+https://docs.aws.amazon.com/codebuild/latest/userguide/create-project.html#create-project-cli
+mentions Autnhorize Application page when hooking CodeBuild with GitHub, but I can't find that page anywhere.
