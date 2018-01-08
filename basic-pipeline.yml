@@ -115,17 +115,18 @@ Resources:
                   - "cloudformation:List*"
                 Resource:
                   - Fn::Sub: arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/Test-${AWS::StackName}*
-#              -
-#                Effect: "Allow"
-#                Action:
-#                  - "codecommit:ListBranches"
-#                  - "codecommit:ListRepositories"
-#                  - "codecommit:BatchGetRepositories"
-#                  - "codecommit:Get*"
-#                  - "codecommit:GitPull"
-#                Resource:
+              -
+                Effect: "Allow"
+                Action:
+                  - "codecommit:ListBranches"
+                  - "codecommit:ListRepositories"
+                  - "codecommit:BatchGetRepositories"
+                  - "codecommit:Get*"
+                  - "codecommit:GitPull"
+                Resource:
 #                  - Fn::Sub: arn:aws:codecommit:${AWS::Region}:${AWS::AccountId}:${CFNTemplateRepoName}
 #                  - Fn::Sub: arn:aws:codecommit:${AWS::Region}:${AWS::AccountId}:${ValidateResourcesRepoName}
+                  - Fn::Sub: arn:aws:codecommit:${AWS::Region}:${AWS::AccountId}:wordpress-build-test
               -
                 Effect: "Allow"
                 Action:
@@ -182,17 +183,18 @@ Resources:
         Image: aws/codebuild/python:2.7.12
       Source:
       
-#        Location:
-#          Fn::Sub: https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/${ValidateResourcesRepoName}
-#        Type: CODECOMMIT
+        Location:
+#          Fn::Sub: https://git-codecommit.us-west-2.amazonaws.com/v1/repos/${ValidateResourcesRepoName}
+          "https://git-codecommit.us-west-2.amazonaws.com/v1/repos/wordpress-build-test"
+        Type: CODECOMMIT
 
 #        Location: https://github.com/craigwongva/wordpress-build-test
 #        Type: GITHUB
 #        Auth: 
 #          Type: OAUTH
           
-        Location: redf4rth-wordpress-codebuild/redf4rth-wordpress-codebuild.zip
-        Type: S3
+#        Location: redf4rth-wordpress-codebuild/redf4rth-wordpress-codebuild.zip
+#        Type: S3
       TimeoutInMinutes: 5 #15
       EncryptionKey:
         Fn::Sub: arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3
