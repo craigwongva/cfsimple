@@ -186,10 +186,10 @@ Resources:
 #          Fn::Sub: https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/${ValidateResourcesRepoName}
 #        Type: CODECOMMIT
 
-        Location: https://github.com/craigwongva/wordpress-build-test
-        Type: GITHUB
-        Auth: 
-          Type: OAUTH
+#        Location: https://github.com/craigwongva/wordpress-build-test
+#        Type: GITHUB
+#        Auth: 
+#          Type: OAUTH
           
         Location: redf4rth-wordpress-codebuild/redf4rth-wordpress-codebuild.zip
         Type: S3
