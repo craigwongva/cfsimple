@@ -233,24 +233,24 @@ Resources:
         Location:
 #          Fn::Sub: https://git-codecommit.us-west-2.amazonaws.com/v1/repos/${ValidateResourcesRepoName}
 
-#          "https://git-codecommit.us-west-2.amazonaws.com/v1/repos/wordpress-build-test"
-#        Type: CODECOMMIT
+          "https://git-codecommit.us-west-2.amazonaws.com/v1/repos/wordpress-build-test"
+        Type: CODECOMMIT
 
-        Location: https://github.com/craigwongva/wordpress-build-test
-        Type: GITHUB
-        Auth: 
-          Type: OAUTH
+#        Location: https://github.com/craigwongva/wordpress-build-test
+#        Type: GITHUB
+#        Auth: 
+#          Type: OAUTH
           
 #        Location: redf4rth-wordpress-codebuild/redf4rth-wordpress-codebuild.zip
 #        Type: S3
         
       TimeoutInMinutes: 5 #15
-      EncryptionKey:
-        Fn::Sub: arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3
-      Tags:
-        - Key: Name
-          Value:
-            Fn::Sub: ValidateResource-${AWS::StackName}
+#      EncryptionKey:
+#        Fn::Sub: arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3
+#      Tags:
+#        - Key: Name
+#          Value:
+#            Fn::Sub: ValidateResource-${AWS::StackName}
             
   Pipeline:
     Type: AWS::CodePipeline::Pipeline
