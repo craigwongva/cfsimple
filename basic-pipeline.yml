@@ -39,28 +39,6 @@ Parameters:
     Type: String
   githubpassword:
     Type: String
-#Metadata:
-#  AWS::CloudFormation::Interface:
-#    ParameterGroups:
-#      - Label:
-#          default: "CodePipeline Settings"
-#        Parameters:
-#          - PipelineName
-#          - S3Bucket
-#          - SourceS3Key
-#          - Email
-#      - Label:
-#          default: "Test Stack Settings"
-#        Parameters:
-#          - TestStackName
-#          - TemplateFileName
-#          - TestStackConfig
-#      - Label:
-#          default: "Production Stack Settings"
-#        Parameters:
-#          - ChangeSetName
-#          - ProdStackName
-#          - ProdStackConfig
 
 Resources:
   ArtifactStoreBucket:
@@ -282,23 +260,6 @@ Resources:
 
         - Name: TestStage
           Actions:
-#            - Name: CreateStack
-#              ActionTypeId:
-#                Category: Deploy
-#                Owner: AWS
-#                Provider: CloudFormation
-#                Version: '1'
-#              InputArtifacts:
-#                - Name: TemplateSource
-#              OutputArtifacts:
-#                - Name: PeachArtifact
-#              Configuration:
-#                ActionMode: REPLACE_ON_FAILURE
-#                RoleArn: !GetAtt [CFNRole, Arn]
-#                StackName: !Ref TestStackName
-#                TemplateConfiguration: !Sub "TemplateSource::${TestStackConfig}"
-#                TemplatePath: !Sub "TemplateSource::${TemplateFileName}"
-#              RunOrder: '1'
 
 #start############################
             -
@@ -319,6 +280,23 @@ Resources:
 #                ProjectName: !Ref ValidateResourceProject
               RunOrder: 2
 ###end############################
+            - Name: CreateStack
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Provider: CloudFormation
+                Version: '1'
+              InputArtifacts:
+                - Name: TemplateSource
+              OutputArtifacts:
+                - Name: PeachArtifact
+              Configuration:
+                ActionMode: REPLACE_ON_FAILURE
+                RoleArn: !GetAtt [CFNRole, Arn]
+                StackName: !Ref TestStackName
+                TemplateConfiguration: !Sub "TemplateSource::${TestStackConfig}"
+                TemplatePath: !Sub "TemplateSource::${TemplateFileName}"
+              RunOrder: '1'
 
 
               
