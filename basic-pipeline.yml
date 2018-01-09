@@ -75,7 +75,60 @@ Resources:
       Subscription:
         - Endpoint: !Ref Email
           Protocol: email
-          
+
+  PipelineRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: ['sts:AssumeRole']
+          Effect: Allow
+          Principal:
+            Service: [codepipeline.amazonaws.com]
+        Version: '2012-10-17'
+      Path: /
+      Policies:
+        - PolicyName: CodePipelineAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                - 's3:*'
+                - 'cloudformation:CreateStack'
+                - 'cloudformation:DescribeStacks'
+                - 'cloudformation:DeleteStack'
+                - 'cloudformation:UpdateStack'
+                - 'cloudformation:CreateChangeSet'
+                - 'cloudformation:ExecuteChangeSet'
+                - 'cloudformation:DeleteChangeSet'
+                - 'cloudformation:DescribeChangeSet'
+                - 'cloudformation:SetStackPolicy'
+                - 'iam:PassRole'
+                - 'sns:Publish'
+                - 'codebuild:*'
+                Effect: Allow
+                Resource: '*'
+  CFNRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: ['sts:AssumeRole']
+          Effect: Allow
+          Principal:
+            Service: [cloudformation.amazonaws.com]
+        Version: '2012-10-17'
+      Path: /
+      Policies:
+        - PolicyName: CloudFormationRole
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                  - 'ec2:*'
+                  - 'IAM:PassRole'
+                Effect: Allow
+                Resource: '*'          
   CodeBuildRole:
     Type: "AWS::IAM::Role"
     Properties:
@@ -218,8 +271,8 @@ Resources:
                 Provider: GitHub
               Configuration:
                 Owner: craigwongva
-                Repo: wordpress-build-test #aws-code-deploy-linux
-                PollForSourceChanges: false #true
+                Repo: wordpress-build-test
+                PollForSourceChanges: false
                 Branch: master
                 OAuthToken: !Ref githubpassword
               OutputArtifacts:
@@ -266,57 +319,6 @@ Resources:
               RunOrder: 2
 ###end############################
 
-  CFNRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Statement:
-        - Action: ['sts:AssumeRole']
-          Effect: Allow
-          Principal:
-            Service: [cloudformation.amazonaws.com]
-        Version: '2012-10-17'
-      Path: /
-      Policies:
-        - PolicyName: CloudFormationRole
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Action:
-                  - 'ec2:*'
-                  - 'IAM:PassRole'
-                Effect: Allow
-                Resource: '*'
+
               
-  PipelineRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Statement:
-        - Action: ['sts:AssumeRole']
-          Effect: Allow
-          Principal:
-            Service: [codepipeline.amazonaws.com]
-        Version: '2012-10-17'
-      Path: /
-      Policies:
-        - PolicyName: CodePipelineAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Action:
-                - 's3:*'
-                - 'cloudformation:CreateStack'
-                - 'cloudformation:DescribeStacks'
-                - 'cloudformation:DeleteStack'
-                - 'cloudformation:UpdateStack'
-                - 'cloudformation:CreateChangeSet'
-                - 'cloudformation:ExecuteChangeSet'
-                - 'cloudformation:DeleteChangeSet'
-                - 'cloudformation:DescribeChangeSet'
-                - 'cloudformation:SetStackPolicy'
-                - 'iam:PassRole'
-                - 'sns:Publish'
-                - 'codebuild:*'
-                Effect: Allow
-                Resource: '*'
+                
