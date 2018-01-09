@@ -1,12 +1,4 @@
 AWSTemplateFormatVersion: "2010-09-09"
-
-Description: >
-  AWS CloudFormation Sample Template Continuous Delievery: This template
-  builds an AWS CodePipeline pipeline that implements a continuous delivery release
-  process for AWS CloudFormation stacks. Submit a CloudFormation source artifact
-  to an Amazon S3 location before building the pipeline. The pipeline uses the
-  artifact to automatically create stacks and change sets.
-
 Parameters:
   PipelineName:
     Description: A name for pipeline
@@ -47,28 +39,28 @@ Parameters:
     Type: String
   githubpassword:
     Type: String
-Metadata:
-  AWS::CloudFormation::Interface:
-    ParameterGroups:
-      - Label:
-          default: "CodePipeline Settings"
-        Parameters:
-          - PipelineName
-          - S3Bucket
-          - SourceS3Key
-          - Email
-      - Label:
-          default: "Test Stack Settings"
-        Parameters:
-          - TestStackName
-          - TemplateFileName
-          - TestStackConfig
-      - Label:
-          default: "Production Stack Settings"
-        Parameters:
-          - ChangeSetName
-          - ProdStackName
-          - ProdStackConfig
+#Metadata:
+#  AWS::CloudFormation::Interface:
+#    ParameterGroups:
+#      - Label:
+#          default: "CodePipeline Settings"
+#        Parameters:
+#          - PipelineName
+#          - S3Bucket
+#          - SourceS3Key
+#          - Email
+#      - Label:
+#          default: "Test Stack Settings"
+#        Parameters:
+#          - TestStackName
+#          - TemplateFileName
+#          - TestStackConfig
+#      - Label:
+#          default: "Production Stack Settings"
+#        Parameters:
+#          - ChangeSetName
+#          - ProdStackName
+#          - ProdStackConfig
 
 Resources:
   ArtifactStoreBucket:
@@ -100,7 +92,7 @@ Resources:
             Action:
               - "sts:AssumeRole"
               
-      Path: /service-role/
+#      Path: /service-role/
       Policies:
         -
           PolicyName: "CodeBuildNestedCFNAccessPolicy"
@@ -162,6 +154,8 @@ Resources:
 #                  - Fn::Sub: arn:aws:s3:::${ArtifactStoreS3Location}/* 
                   - Fn::Sub: arn:aws:s3:::${ArtifactStoreBucket}/*
                   - Fn::Sub: arn:aws:s3:::${ArtifactStoreBucket}/*
+                  - "arn:aws:s3:::wordpress-build-test/*"
+                  - "arn:aws:s3:::redf4rth-wordpress-codebuild/*"
 
   ValidateResourceProject:
     Type: AWS::CodeBuild::Project
@@ -185,16 +179,17 @@ Resources:
       
         Location:
 #          Fn::Sub: https://git-codecommit.us-west-2.amazonaws.com/v1/repos/${ValidateResourcesRepoName}
-          "https://git-codecommit.us-west-2.amazonaws.com/v1/repos/wordpress-build-test"
-        Type: CODECOMMIT
+
+#          "https://git-codecommit.us-west-2.amazonaws.com/v1/repos/wordpress-build-test"
+#        Type: CODECOMMIT
 
 #        Location: https://github.com/craigwongva/wordpress-build-test
 #        Type: GITHUB
 #        Auth: 
 #          Type: OAUTH
           
-#        Location: redf4rth-wordpress-codebuild/redf4rth-wordpress-codebuild.zip
-#        Type: S3
+        Location: redf4rth-wordpress-codebuild/redf4rth-wordpress-codebuild.zip
+        Type: S3
       TimeoutInMinutes: 5 #15
       EncryptionKey:
         Fn::Sub: arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3
@@ -213,21 +208,6 @@ Resources:
       Name: !Ref 'PipelineName'
       RoleArn: !GetAtt [PipelineRole, Arn]
       Stages:
-#This section does this: s/s3/github/
-#        - Name: S3Source
-#          Actions:
-#            - Name: TemplateSource
-#              ActionTypeId:
-#                Category: Source
-#                Owner: AWS
-#                Provider: S3
-#                Version: '1'
-#              Configuration:
-#                S3Bucket: !Ref 'S3Bucket'
-#                S3ObjectKey: !Ref 'SourceS3Key'
-#              OutputArtifacts:
-#                - Name: TemplateSource
-#              RunOrder: '1'
         - Name: S3Source
           Actions:
             - Name: TemplateSource
@@ -248,30 +228,30 @@ Resources:
 
         - Name: TestStage
           Actions:
-            - Name: CreateStack
-              ActionTypeId:
-                Category: Deploy
-                Owner: AWS
-                Provider: CloudFormation
-                Version: '1'
-              InputArtifacts:
-                - Name: TemplateSource
-              OutputArtifacts:
-                - Name: PeachArtifact
-              Configuration:
-                ActionMode: REPLACE_ON_FAILURE
-                RoleArn: !GetAtt [CFNRole, Arn]
-                StackName: !Ref TestStackName
-                TemplateConfiguration: !Sub "TemplateSource::${TestStackConfig}"
-                TemplatePath: !Sub "TemplateSource::${TemplateFileName}"
-              RunOrder: '1'
+#            - Name: CreateStack
+#              ActionTypeId:
+#                Category: Deploy
+#                Owner: AWS
+#                Provider: CloudFormation
+#                Version: '1'
+#              InputArtifacts:
+#                - Name: TemplateSource
+#              OutputArtifacts:
+#                - Name: PeachArtifact
+#              Configuration:
+#                ActionMode: REPLACE_ON_FAILURE
+#                RoleArn: !GetAtt [CFNRole, Arn]
+#                StackName: !Ref TestStackName
+#                TemplateConfiguration: !Sub "TemplateSource::${TestStackConfig}"
+#                TemplatePath: !Sub "TemplateSource::${TemplateFileName}"
+#              RunOrder: '1'
 
 #start############################
             -
               Name: ValidateTestStack
               InputArtifacts:
                 -
-                  Name: PeachArtifact
+                  Name: TemplateSource #PeachArtifact
               ActionTypeId:
                 Category: Test
                 Owner: AWS
@@ -281,71 +261,11 @@ Resources:
                 -
                   Name: ValidatedTestStack
               Configuration:
-                ProjectName: ValidateResource-sample-Wordpress-pipeline #house
-#                ProjectName: "choreography" #!Ref ValidateResourceProject
+                ProjectName: ValidateResource-sample-Wordpress-pipeline
+#                ProjectName: !Ref ValidateResourceProject
               RunOrder: 2
 ###end############################
-            - Name: ApproveTestStack
-              ActionTypeId:
-                Category: Approval
-                Owner: AWS
-                Provider: Manual
-                Version: '1'
-              Configuration:
-                NotificationArn: !Ref CodePipelineSNSTopic
-                CustomData: !Sub 'Do you want to create a change set against the production stack and delete the ${TestStackName} stack?'
-              RunOrder: '2'
-            - Name: DeleteTestStack
-              ActionTypeId:
-                Category: Deploy
-                Owner: AWS
-                Provider: CloudFormation
-                Version: '1'
-              Configuration:
-                ActionMode: DELETE_ONLY
-                RoleArn: !GetAtt [CFNRole, Arn]
-                StackName: !Ref TestStackName
-              RunOrder: '3'
-        - Name: ProdStage
-          Actions:
-            - Name: CreateChangeSet
-              ActionTypeId:
-                Category: Deploy
-                Owner: AWS
-                Provider: CloudFormation
-                Version: '1'
-              InputArtifacts:
-                - Name: TemplateSource
-              Configuration:
-                ActionMode: CHANGE_SET_REPLACE
-                RoleArn: !GetAtt [CFNRole, Arn]
-                StackName: !Ref ProdStackName
-                ChangeSetName: !Ref ChangeSetName
-                TemplateConfiguration: !Sub "TemplateSource::${ProdStackConfig}"
-                TemplatePath: !Sub "TemplateSource::${TemplateFileName}"
-              RunOrder: '1'
-            - Name: ApproveChangeSet
-              ActionTypeId:
-                Category: Approval
-                Owner: AWS
-                Provider: Manual
-                Version: '1'
-              Configuration:
-                NotificationArn: !Ref CodePipelineSNSTopic
-                CustomData: !Sub 'A new change set was created for the ${ProdStackName} stack. Do you want to implement the changes?'
-              RunOrder: '2'
-            - Name: ExecuteChangeSet
-              ActionTypeId:
-                Category: Deploy
-                Owner: AWS
-                Provider: CloudFormation
-                Version: '1'
-              Configuration:
-                ActionMode: CHANGE_SET_EXECUTE
-                ChangeSetName: !Ref ChangeSetName
-                RoleArn: !GetAtt [CFNRole, Arn]
-                StackName: !Ref ProdStackName
-              RunOrder: '3'
+
   CFNRole:
     Type: AWS::IAM::Role
     Properties:
