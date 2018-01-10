@@ -210,11 +210,11 @@ Resources:
       Source:
 
 #CodeBuild can't find javabuildspec.yml      
-        Location: https://github.com/craigwongva/javabuildspec
+#        Location: https://github.com/craigwongva/javabuildspec
 #failed:        BuildSpec: javabuildspec.yml
 #Apparently if the name of the yaml file matches the name of the repo
 # it fails. I haven't confirmed that.
-        Location: https://github.com/craigwongva/javabuildspec
+        Location: https://github.com/craigwongva/wordpress-build-test
         BuildSpec: javabuildtech.yml
         Type: GITHUB
         Auth: 
