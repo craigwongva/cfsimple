@@ -205,19 +205,30 @@ Resources:
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: aws/codebuild/python:2.7.12
+#        Image: aws/codebuild/python:2.7.12
+        Image: aws/codebuild/java:openjdk-8
       Source:
-      
-        Location:
+
+#CodeBuild can't find javabuildspec.yml      
+        Location: https://github.com/craigwongva/javabuildspec
+        BuildSpec: javabuildspec.yml
+        Type: GITHUB
+        Auth: 
+          Type: OAUTH
+
+#        Location:
 #          Fn::Sub: https://git-codecommit.us-west-2.amazonaws.com/v1/repos/${ValidateResourcesRepoName}
 
-          "https://git-codecommit.us-west-2.amazonaws.com/v1/repos/wordpress-build-test"
-        Type: CODECOMMIT
+#          "https://git-codecommit.us-west-2.amazonaws.com/v1/repos/wordpress-build-test"
+#        Type: CODECOMMIT
 
-#        Location: https://github.com/craigwongva/wordpress-build-test
-#        Type: GITHUB
-#        Auth: 
-#          Type: OAUTH
+        Location: https://github.com/craigwongva/wordpress-build-test
+#        BuildSpec: buildspec.yml
+#success:        BuildSpec: javanation.yml
+        BuildSpec: javabuildtech.yml
+        Type: GITHUB
+        Auth: 
+          Type: OAUTH
           
 #        Location: redf4rth-wordpress-codebuild/redf4rth-wordpress-codebuild.zip
 #        Type: S3
@@ -280,24 +291,20 @@ Resources:
 #                ProjectName: !Ref ValidateResourceProject
               RunOrder: 2
 ###end############################
-            - Name: CreateStack
-              ActionTypeId:
-                Category: Deploy
-                Owner: AWS
-                Provider: CloudFormation
-                Version: '1'
-              InputArtifacts:
-                - Name: TemplateSource
-              OutputArtifacts:
-                - Name: PeachArtifact
-              Configuration:
-                ActionMode: REPLACE_ON_FAILURE
-                RoleArn: !GetAtt [CFNRole, Arn]
-                StackName: !Ref TestStackName
-                TemplateConfiguration: !Sub "TemplateSource::${TestStackConfig}"
-                TemplatePath: !Sub "TemplateSource::${TemplateFileName}"
-              RunOrder: '1'
-
-
-              
-                
+#            - Name: CreateStack
+#              ActionTypeId:
+#                Category: Deploy
+#                Owner: AWS
+#                Provider: CloudFormation
+#                Version: '1'
+#              InputArtifacts:
+#                - Name: TemplateSource
+#              OutputArtifacts:
+#                - Name: PeachArtifact
+#              Configuration:
+#                ActionMode: REPLACE_ON_FAILURE
+#                RoleArn: !GetAtt [CFNRole, Arn]
+#                StackName: !Ref TestStackName
+#                TemplateConfiguration: !Sub "TemplateSource::${TestStackConfig}"
+#                TemplatePath: !Sub "TemplateSource::${TemplateFileName}"
+#              RunOrder: 3
