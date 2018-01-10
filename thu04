@@ -99,3 +99,8 @@ from upstairs, the old problem was gone!
 Sunday 9:50pm:
 https://docs.aws.amazon.com/codebuild/latest/userguide/create-project.html#create-project-cli
 mentions Autnhorize Application page when hooking CodeBuild with GitHub, but I can't find that page anywhere.
+
+--
+$ python delete-versioned-bucket.py `aws cloudformation list-exports --query "Exports[?Name=='wordpress-build-test-artifact-store-bucket'].Value" --no-paginate --output text`
+$ aws cloudformation delete-stack --stack-name sample-Wordpress-pipeline --region us-west-2 
+

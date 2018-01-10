@@ -312,3 +312,8 @@ Resources:
 #                TemplateConfiguration: !Sub "TemplateSource::${TestStackConfig}"
 #                TemplatePath: !Sub "TemplateSource::${TemplateFileName}"
 #              RunOrder: 3
+Outputs:
+  artifactStoreBucketOutput:
+    Value: !Ref ArtifactStoreBucket
+    Export:
+      Name: wordpress-build-test-artifact-store-bucket
