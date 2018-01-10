@@ -13,5 +13,5 @@ phases:
       - mvn exec:java
 artifacts:
   files:
-#    - target/my-app-1.0-SNAPSHOT.jar
-    - target/MyGroovy-1.0-SNAPSHOT.jar
+    - target/my-app-1.0-SNAPSHOT.jar
+#    - target/MyGroovy-1.0-SNAPSHOT.jar
