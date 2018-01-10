@@ -9,6 +9,8 @@ phases:
     commands:
       - echo Build completed on `date`
       - mvn package
+      - echo Running %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      - mvn exec:java
 artifacts:
   files:
 #    - target/my-app-1.0-SNAPSHOT.jar
