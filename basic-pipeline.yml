@@ -211,7 +211,11 @@ Resources:
 
 #CodeBuild can't find javabuildspec.yml      
         Location: https://github.com/craigwongva/javabuildspec
-        BuildSpec: javabuildspec.yml
+#failed:        BuildSpec: javabuildspec.yml
+#Apparently if the name of the yaml file matches the name of the repo
+# it fails. I haven't confirmed that.
+        Location: https://github.com/craigwongva/javabuildspec
+        BuildSpec: javabuildtech.yml
         Type: GITHUB
         Auth: 
           Type: OAUTH
@@ -222,13 +226,13 @@ Resources:
 #          "https://git-codecommit.us-west-2.amazonaws.com/v1/repos/wordpress-build-test"
 #        Type: CODECOMMIT
 
-        Location: https://github.com/craigwongva/wordpress-build-test
+#        Location: https://github.com/craigwongva/wordpress-build-test
 #        BuildSpec: buildspec.yml
 #success:        BuildSpec: javanation.yml
-        BuildSpec: javabuildtech.yml
-        Type: GITHUB
-        Auth: 
-          Type: OAUTH
+#        BuildSpec: javabuildtech.yml
+#        Type: GITHUB
+#        Auth: 
+#          Type: OAUTH
           
 #        Location: redf4rth-wordpress-codebuild/redf4rth-wordpress-codebuild.zip
 #        Type: S3
