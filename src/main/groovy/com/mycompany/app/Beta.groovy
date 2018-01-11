@@ -11,9 +11,9 @@ public class Beta
         System.out.println( "Hello World!" );
         println "A dog barks"
         
-        def mickey = [
-          "curl",  
-          "${TEST_STACK_IP}:8080/green/timer/status"]
+        //def mickey = [
+        //  "curl",  
+        //  "${TEST_STACK_IP}:8080/green/timer/status"]
         // .execute().text
         def ARBITRARY_SUCCESS_PCT = 0.95
         def NUM_GREEN_DOTS = 100
