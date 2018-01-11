@@ -1,5 +1,11 @@
 package com.mycompany.app;
 
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
+import com.amazonaws.services.s3.model.Bucket;
+import java.util.List;
+
 /**
  * Hello world!
  *
@@ -37,6 +43,21 @@ public class Beta
             "http://www.clarabridge.com"]
             .execute().text
         println minnie    
+
+String bucket_name = 'deleteme1001'
+final AmazonS3 s3 = AmazonS3ClientBuilder.defaultClient();
+Bucket b = null;
+if (s3.doesBucketExist(bucket_name)) {
+    System.out.format("Bucket %s already exists.\n", bucket_name);
+    b = getBucket(bucket_name);
+} else {
+    try {
+        b = s3.createBucket(bucket_name);
+    } catch (AmazonS3Exception e) {
+        System.err.println(e.getErrorMessage());
+    }
+}
+//return b;
         
         System.exit(0)
     }
