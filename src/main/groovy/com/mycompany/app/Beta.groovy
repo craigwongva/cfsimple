@@ -27,10 +27,10 @@ public class Beta
         //succeeds: 
         // if (mickey.indexOf('4'.multiply(95)) < 0) { }
 
-        if (mickey.indexOf(
-          '4444444444444444444444444444444444444444444444444444444444') < 0) {
+        //if (mickey.indexOf(
+        //  '4444444444444444444444444444444444444444444444444444444444') < 0) {
     	  //error "red rover3 ${TEST_STACK_IP}:8080/green/timer/status $mickey" 
-        }
+        //}
         
         def minnie = [
             "curl",
