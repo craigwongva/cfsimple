@@ -14,6 +14,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import com.amazonaws.services.s3.model.ObjectListing;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
+
+
 /**
  * Hello world!
  *
@@ -45,14 +49,15 @@ public class Beta
         //  '4444444444444444444444444444444444444444444444444444444444') < 0) {
     	  //error "red rover3 ${TEST_STACK_IP}:8080/green/timer/status $mickey" 
         //}
-        
+ /*       
         def minnie = [
             "curl",
             "http://www.clarabridge.com"]
             .execute().text
         println minnie    
-
+*/
 String bucket_name = 'deleteme1001'
+bucket_name = 'pcf-east-io-aws-broker-778a5f30-e73b-4e67-8139-ff7de4d51e3c'
 /* succeeds:
 final AmazonS3 s3 = AmazonS3ClientBuilder.defaultClient();
 Bucket b = null;
@@ -68,6 +73,7 @@ if (s3.doesBucketExist(bucket_name)) {
 }
 //return b;
 */
+/* Download an object (yes, this code works):
 String key_name = 'deleteme1002'
 final AmazonS3 s3 = AmazonS3ClientBuilder.defaultClient();
 try {
@@ -91,7 +97,15 @@ try {
     System.err.println(e.getMessage());
     System.exit(1);
 }
+*/
         
+final AmazonS3 s3 = AmazonS3ClientBuilder.defaultClient();
+ObjectListing ol = s3.listObjects(bucket_name);
+List<S3ObjectSummary> objects = ol.getObjectSummaries();
+for (S3ObjectSummary os: objects) {
+    System.out.println("* " + os.getKey());
+}
+
         System.exit(0)
     }
 }
