@@ -10,6 +10,6 @@ public class Beta
     {
         System.out.println( "Hello World!" );
         println "A dog barks"
-        System.exit(-1)
+        System.exit(0)
     }
 }
