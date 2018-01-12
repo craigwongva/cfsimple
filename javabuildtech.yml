@@ -12,6 +12,10 @@ phases:
       - echo Running %101%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #      - mvn -f pom-groovy.xml exec:java -Dexec.mainClass="com.mycompany.app.Beta" 
       - mvn -f pom.xml exec:java -Dexec.mainClass="com.mycompany.app.Beta" 
+      - cat deleteme1002
+      - echo `curl http://checkip.amazonsaws.com/32`
+      - echo 'tennessee'
+      - aws s3 ls
 artifacts:
   files:
 #    - target/my-app-1.0-SNAPSHOT.jar
