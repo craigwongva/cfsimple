@@ -98,8 +98,11 @@ try {
     System.exit(1);
 }
 */
-        
+
+Region usWest2 = com.amazonaws.regions.Region.getRegion(Regions.US_WEST_2);
+
 final AmazonS3 s3 = AmazonS3ClientBuilder.defaultClient();
+s3.setRegion(usWest2);
 ObjectListing ol = s3.listObjects(bucket_name);
 List<S3ObjectSummary> objects = ol.getObjectSummaries();
 for (S3ObjectSummary os: objects) {
