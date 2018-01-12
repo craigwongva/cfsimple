@@ -14,7 +14,7 @@ phases:
 #succeeds calling AWS SDK for S3, but actually that's not my main task right now, so comment it out:
 #      - mvn -f pom.xml exec:java -Dexec.mainClass="com.mycompany.app.Beta" 
 #      - cat deleteme1002
-      - echo `curl http://checkip.amazonsaws.com/32`
+      - echo `curl http://checkip.amazonaws.com/32`
       - echo 'tennessee'
 #      - aws s3 ls
 artifacts:
