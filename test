@@ -1,4 +1,4 @@
 python delete-versioned-bucket.py `aws cloudformation list-exports --query "Exports[?Name=='wordpress-build-test-artifact-store-bucket'].Value" --no-paginate --output text`
 aws cloudformation delete-stack --stack-name sample-Wordpress-pipeline --region us-west-2 
-sleep 30
+sleep 10
 aws cloudformation create-stack --stack-name sample-Wordpress-pipeline --template-body file://basic-pipeline.yml --region us-west-2 --capabilities CAPABILITY_NAMED_IAM --parameters ParameterKey=PipelineName,ParameterValue=WordPress-test-pipeline ParameterKey=S3Bucket,ParameterValue=redf4rth-root-oregon ParameterKey=SourceS3Key,ParameterValue=wordpress-pipeline/wordpress.zip ParameterKey=Email,ParameterValue=craigjk@cox.net ParameterKey=githubpassword,ParameterValue=$1

@@ -1,5 +1,6 @@
 package com.mycompany.app;
 import com.amazonaws.regions.Region
+import com.amazonaws.regions.Regions
 
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
@@ -58,7 +59,7 @@ public class Beta
         println minnie    
 */
 String bucket_name = 'deleteme1001'
-bucket_name = 'pcf-east-io-aws-broker-778a5f30-e73b-4e67-8139-ff7de4d51e3c'
+//bucket_name = 'pcf-east-io-aws-broker-778a5f30-e73b-4e67-8139-ff7de4d51e3c'
 /* succeeds:
 final AmazonS3 s3 = AmazonS3ClientBuilder.defaultClient();
 Bucket b = null;
@@ -101,9 +102,14 @@ try {
 */
 
 Region usWest2 = com.amazonaws.regions.Region.getRegion(Regions.US_WEST_2);
-
-final AmazonS3 s3 = AmazonS3ClientBuilder.defaultClient();
-s3.setRegion(usWest2);
+String r = "us-west-2"
+//fails: final AmazonS3 s3 = AmazonS3ClientBuilder.withRegion(r).defaultClient();
+//s3.setRegion(usWest2)
+AmazonS3 s3 = 
+        AmazonS3ClientBuilder.standard()
+                             .withRegion("us-west-2") // The first region to try your request against
+                            // .withForceGlobalBucketAccess(true) // If a bucket is in a different region, try again in the correct region
+                             .build();
 ObjectListing ol = s3.listObjects(bucket_name);
 List<S3ObjectSummary> objects = ol.getObjectSummaries();
 for (S3ObjectSummary os: objects) {
