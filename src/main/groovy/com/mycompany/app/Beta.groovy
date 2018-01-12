@@ -1,4 +1,5 @@
 package com.mycompany.app;
+import com.amazonaws.regions.Region
 
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
