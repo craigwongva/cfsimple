@@ -284,6 +284,7 @@ Resources:
                 Version: '1'
               InputArtifacts:
                 - Name: TemplateSource
+                - Name: S3BSource
               OutputArtifacts:
                 - Name: PeachArtifact
               Configuration:
@@ -291,7 +292,7 @@ Resources:
                 RoleArn: !GetAtt [CFNRole, Arn]
                 StackName: !Ref TestStackName
 #                TemplateConfiguration: TemplateSource::fake-config.json
-                TemplateConfiguration: S3BSource::redf4rth-private-wordpress-codebuild-config.zip
+                TemplateConfiguration: S3BSource::stack-config.json
                 TemplatePath: TemplateSource::cf-saynext.json
               RunOrder: 4
 Outputs:
