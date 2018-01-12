@@ -281,8 +281,8 @@ Resources:
                 ActionMode: REPLACE_ON_FAILURE
                 RoleArn: !GetAtt [CFNRole, Arn]
                 StackName: !Ref TestStackName
-                #TemplateConfiguration: !Sub "TemplateSource::${TestStackConfig}"
-                TemplatePath: TemplateSource::cf-saynext.json #!Sub "TemplateSource::${TemplateFileName}"
+                TemplateConfiguration: TemplateSource::fakeconfig.json
+                TemplatePath: TemplateSource::cf-saynext.json
               RunOrder: 4
 Outputs:
   artifactStoreBucketOutput:
