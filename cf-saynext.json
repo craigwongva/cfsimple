@@ -15,7 +15,9 @@
 "Resources": {
   "secgrp": {
       "Type": "AWS::EC2::SecurityGroup",
-      "GroupDescription": "secgrp group description"
+      "Properties": {
+        "GroupDescription": "secgrp group description"
+      }
   },
   "Server": {
    "Type": "AWS::EC2::Instance",
