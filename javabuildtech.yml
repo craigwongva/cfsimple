@@ -11,11 +11,12 @@ phases:
       - mvn package
       - echo Running %101%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #      - mvn -f pom-groovy.xml exec:java -Dexec.mainClass="com.mycompany.app.Beta" 
-      - mvn -f pom.xml exec:java -Dexec.mainClass="com.mycompany.app.Beta" 
-      - cat deleteme1002
+#succeeds calling AWS SDK for S3, but actually that's not my main task right now, so comment it out:
+#      - mvn -f pom.xml exec:java -Dexec.mainClass="com.mycompany.app.Beta" 
+#      - cat deleteme1002
       - echo `curl http://checkip.amazonsaws.com/32`
       - echo 'tennessee'
-      - aws s3 ls
+#      - aws s3 ls
 artifacts:
   files:
 #    - target/my-app-1.0-SNAPSHOT.jar
