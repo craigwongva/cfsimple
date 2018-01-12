@@ -216,20 +216,19 @@ Resources:
       Stages:
         - Name: S3Source
           Actions:
-            - Name: S3ASource
-              ActionTypeId:
-                Category: Source
-                Owner: ThirdParty
-                Version: 1
-                Provider: S3
-              Configuration:
-                S3Bucket: redf4rth-private-wordpress-codebuild-config
-                S3ObjectKey: redf4rth-private-wordpress-codebuild-config.zip 
-              OutputArtifacts:
-                - Name: S3BSource 
-              RunOrder: 1
-        - Name: GithubSource
-          Actions:
+##doesn't work:          
+#            - Name: S3ASource
+#              ActionTypeId:
+#                Category: Source
+#                Owner: ThirdParty
+#                Version: 1
+#                Provider: S3
+#              Configuration:
+#                S3Bucket: redf4rth-private-wordpress-codebuild-config
+#                S3ObjectKey: redf4rth-private-wordpress-codebuild-config.zip 
+#              OutputArtifacts:
+#                - Name: S3BSource 
+#              RunOrder: 1
             - Name: TemplateSource
               ActionTypeId:
                 Category: Source
