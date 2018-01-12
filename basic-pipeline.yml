@@ -247,8 +247,6 @@ Resources:
 
         - Name: TestStage
           Actions:
-
-#start############################
             -
               Name: ValidateTestStack
               InputArtifacts:
@@ -264,9 +262,7 @@ Resources:
                   Name: ValidatedTestStack
               Configuration:
                 ProjectName: ValidateResource-sample-Wordpress-pipeline
-#                ProjectName: !Ref ValidateResourceProject
               RunOrder: 3
-###end############################
             - Name: CreateStack
               ActionTypeId:
                 Category: Deploy
