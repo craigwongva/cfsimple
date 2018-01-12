@@ -19,7 +19,7 @@ Parameters:
     Description: A name for the test WordPress stack
     Type: String
   TestStackConfig:
-    Default: test-stack-configuration.json
+    Default: cf-saynext.json
     Description: The configuration file name for the test WordPress stack
     Type: String
   ProdStackName:
@@ -204,7 +204,6 @@ Resources:
         Auth: 
           Type: OAUTH
       TimeoutInMinutes: 5
-            
   Pipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
@@ -216,6 +215,20 @@ Resources:
       RoleArn: !GetAtt [PipelineRole, Arn]
       Stages:
         - Name: S3Source
+          Actions:
+            - Name: S3ASource
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Version: 1
+                Provider: S3
+              Configuration:
+                S3Bucket: redf4rth-private-wordpress-codebuild-config
+                S3ObjectKey: redf4rth-private-wordpress-codebuild-config.zip 
+              OutputArtifacts:
+                - Name: S3BSource 
+              RunOrder: 1
+        - Name: GithubSource
           Actions:
             - Name: TemplateSource
               ActionTypeId:
@@ -231,7 +244,7 @@ Resources:
                 OAuthToken: !Ref githubpassword
               OutputArtifacts:
                 - Name: TemplateSource 
-              RunOrder: 1
+              RunOrder: 2
 
         - Name: TestStage
           Actions:
@@ -253,7 +266,7 @@ Resources:
               Configuration:
                 ProjectName: ValidateResource-sample-Wordpress-pipeline
 #                ProjectName: !Ref ValidateResourceProject
-              RunOrder: 2
+              RunOrder: 3
 ###end############################
             - Name: CreateStack
               ActionTypeId:
@@ -269,9 +282,9 @@ Resources:
                 ActionMode: REPLACE_ON_FAILURE
                 RoleArn: !GetAtt [CFNRole, Arn]
                 StackName: !Ref TestStackName
-                TemplateConfiguration: !Sub "TemplateSource::${TestStackConfig}"
-                TemplatePath: !Sub "TemplateSource::${TemplateFileName}"
-              RunOrder: 3
+                #TemplateConfiguration: !Sub "TemplateSource::${TestStackConfig}"
+                TemplatePath: TemplateSource::cf-saynext.json #!Sub "TemplateSource::${TemplateFileName}"
+              RunOrder: 4
 Outputs:
   artifactStoreBucketOutput:
     Value: !Ref ArtifactStoreBucket

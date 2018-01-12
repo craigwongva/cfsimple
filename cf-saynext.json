@@ -10,15 +10,9 @@
 "Parameters": {
   "githubpassword" : {
     "Type" : "String"
-  },
-  "secgrp" : {
-    "Type" : "String"
   }
 },
 "Resources": {
-  "4c": {
-    "Type": "AWS::EC2::SecurityGroup"
-  },
   "Server": {
    "Type": "AWS::EC2::Instance",
    "Properties": {
@@ -37,7 +31,7 @@
     "InstanceType": "t2.small",
     "KeyName":  "oregonkeypair" ,
     "SecurityGroupIds": [
-     { "Ref": "4c" }
+     { "Ref": "secgrp" }
     ],
     "IamInstanceProfile": "RoleForTestingRoles",
     "UserData": {"Fn::Base64": {"Fn::Join": ["",
