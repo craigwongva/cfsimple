@@ -244,7 +244,21 @@ Resources:
               OutputArtifacts:
                 - Name: TemplateSource 
               RunOrder: 2
-
+            - Name: VemplateSource
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Version: 1
+                Provider: GitHub
+              Configuration:
+                Owner: craigwongva
+                Repo: wordpress-build-test
+                PollForSourceChanges: false
+                Branch: master
+                OAuthToken: !Ref githubpassword
+              OutputArtifacts:
+                - Name: VemplateSource 
+              RunOrder: 3
         - Name: TestStage
           Actions:
             -
