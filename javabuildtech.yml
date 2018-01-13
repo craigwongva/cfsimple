@@ -12,15 +12,17 @@ phases:
 #      - mvn test
   post_build:
     commands:
-#      - mvn package
+      - mvn package
 
-#succeeds calling AWS SDK for S3, but actually that's not my main task right now, so comment it out:
-#      - mvn -f pom.xml exec:java -Dexec.mainClass="com.mycompany.app.Beta" 
-#      - cat deleteme1002
       - PUBLICIP=`curl http://checkip.amazonaws.com/32`
       - TEMP_SAYNEXT_SECGRP=`aws ec2 describe-security-groups --region us-west-2 | jq '.SecurityGroups | .[] | select((.GroupName | contains("saynext"))) | .GroupId' | sed s/\"//g`
       - aws ec2 authorize-security-group-ingress --group-id $TEMP_SAYNEXT_SECGRP --cidr $PUBLICIP/32 --port 8080 --protocol tcp --region us-west-2 || true
+
 #      - curl http://saynext.redf4rth.net:8080/my-starter-app/prompt/font
-#artifacts:
-#  files:
-#    - target/MyGroovy-1.0-SNAPSHOT.jar
+#succeeds calling AWS SDK for S3, but actually that's not my main task right now, so comment it out:
+      - mvn exec:java -Dexec.mainClass="com.mycompany.app.Beta" 
+#      - cat deleteme1002
+
+artifacts:
+  files:
+    - target/MyGroovy-1.0-SNAPSHOT.jar
