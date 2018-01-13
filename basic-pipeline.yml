@@ -256,25 +256,25 @@ Resources:
               Configuration:
                 ProjectName: ValidateResource-sample-Wordpress-pipeline
               RunOrder: 3
-            - Name: CreateStack
-              ActionTypeId:
-                Category: Deploy
-                Owner: AWS
-                Provider: CloudFormation
-                Version: '1'
-              InputArtifacts:
-                - Name: TemplateSourceArtifact
-                - Name: S3BSource
-                - Name: CloudFormationSourceArtifact
-              OutputArtifacts:
-                - Name: PeachArtifact
-              Configuration:
-                ActionMode: REPLACE_ON_FAILURE
-                RoleArn: !GetAtt [CFNRole, Arn]
-                StackName: !Ref TestStackName
-                TemplateConfiguration: S3BSource::stack-config.json
-                TemplatePath: CloudFormationSourceArtifact::cf.json
-              RunOrder: 4
+#            - Name: CreateStack
+#              ActionTypeId:
+#                Category: Deploy
+#                Owner: AWS
+#                Provider: CloudFormation
+#                Version: '1'
+#              InputArtifacts:
+#                - Name: TemplateSourceArtifact
+#                - Name: S3BSource
+#                - Name: CloudFormationSourceArtifact
+#              OutputArtifacts:
+#                - Name: PeachArtifact
+#              Configuration:
+#                ActionMode: REPLACE_ON_FAILURE
+#                RoleArn: !GetAtt [CFNRole, Arn]
+#                StackName: !Ref TestStackName
+#                TemplateConfiguration: S3BSource::stack-config.json
+#                TemplatePath: CloudFormationSourceArtifact::cf.json
+#              RunOrder: 4
 Outputs:
   artifactStoreBucketOutput:
     Value: !Ref ArtifactStoreBucket
