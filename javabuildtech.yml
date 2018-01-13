@@ -3,7 +3,9 @@ version: 0.2
 phases:
   install:
     commands:
-      - apt-get install jq -y
+     -uname -a
+     -lsb_release -a
+#      - apt-get install jq -y
   build:
     commands:
       - echo Build started on `date`
