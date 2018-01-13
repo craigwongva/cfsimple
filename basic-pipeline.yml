@@ -6,14 +6,6 @@ Parameters:
   S3Bucket:
     Description: The name of the S3 bucket that contains the source artifact, which must be in the same region as this stack
     Type: String
-  SourceS3Key:
-    Default: wordpress-single-instance.zip
-    Description: The file name of the source artifact, such as myfolder/myartifact.zip
-    Type: String
-  TemplateFileName:
-    Default: wordpress-single-instance.yaml
-    Description: The file name of the WordPress template
-    Type: String
   TestStackName:
     Default: Test-MyWordPressSite
     Description: A name for the test WordPress stack
@@ -21,18 +13,6 @@ Parameters:
   TestStackConfig:
     Default: cf-saynext.json
     Description: The configuration file name for the test WordPress stack
-    Type: String
-  ProdStackName:
-    Default: Prod-MyWordPressSite
-    Description: A name for the production WordPress stack
-    Type: String
-  ProdStackConfig:
-    Default: prod-stack-configuration.json
-    Description: The configuration file name for the production WordPress stack
-    Type: String
-  ChangeSetName:
-    Default: UpdatePreview-MyWordPressSite
-    Description: A name for the production WordPress stack change set
     Type: String
   Email:
     Description: The email address where CodePipeline sends pipeline notifications
@@ -150,6 +130,7 @@ Resources:
                 Effect: "Allow"
                 Action:
                   - "ec2:Describe*"
+                  - "ec2:AuthorizeSecurityGroupIngress"
                   - "cloudformation:ValidateTemplate"
                   - "elasticloadbalancing:Describe*"
                   - "autoscaling:Describe*"
@@ -157,6 +138,7 @@ Resources:
                   - "iam:List*"
                   - "logs:Describe*"
                   - "logs:Get*"
+                  - "route53:ListResourceRecordSets"
                   - "tag:Get*"
                 Resource:
                   - "*"
@@ -263,16 +245,14 @@ Resources:
             -
               Name: ValidateTestStack
               InputArtifacts:
-                -
-                  Name: TemplateSourceArtifact #PeachArtifact
+                - Name: TemplateSourceArtifact
               ActionTypeId:
                 Category: Test
                 Owner: AWS
                 Version: 1
                 Provider: CodeBuild
               OutputArtifacts:
-                -
-                  Name: ValidatedTestStack
+                - Name: ValidatedTestStack
               Configuration:
                 ProjectName: ValidateResource-sample-Wordpress-pipeline
               RunOrder: 3
@@ -293,7 +273,6 @@ Resources:
                 RoleArn: !GetAtt [CFNRole, Arn]
                 StackName: !Ref TestStackName
                 TemplateConfiguration: S3BSource::stack-config.json
-#                TemplatePath: TemplateSourceArtifact::cf-saynext.json
                 TemplatePath: CloudFormationSourceArtifact::cf.json
               RunOrder: 4
 Outputs:

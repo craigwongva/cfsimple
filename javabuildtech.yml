@@ -1,6 +1,9 @@
 version: 0.2
 
 phases:
+  install:
+    commands:
+      - yum install jq -y
   build:
     commands:
       - echo Build started on `date`
@@ -8,7 +11,7 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
-      - mvn package
+#      - mvn package
       - echo Running %101%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #      - mvn -f pom-groovy.xml exec:java -Dexec.mainClass="com.mycompany.app.Beta" 
 #succeeds calling AWS SDK for S3, but actually that's not my main task right now, so comment it out:
@@ -16,8 +19,12 @@ phases:
 #      - cat deleteme1002
       - echo `curl http://checkip.amazonaws.com/32`
       - echo 'tennessee'
+      - TEMP_SAYNEXT_SECGRP=`aws ec2 describe-security-groups --region us-west-2 | jq '.SecurityGroups | .[] | select((.GroupName | contains("saynext"))) | .GroupId' | sed s/\"//g`
+      - TEMP_EC2W_PUBLICIP=`aws route53 list-resource-record-sets --hosted-zone-id Z14MX2BF8JTF7J | jq '.ResourceRecordSets  | .[] | select((.Name | contains("ec2w"))) | select((.Type | contains("A"))) | .ResourceRecords | .[] | .Value' | sed s/\"//g`
+      - aws ec2 authorize-security-group-ingress --group-id $TEMP_SAYNEXT_SECGRP --cidr $TEMP_EC2W_PUBLICIP/32 --port 8080 --protocol tcp --region us-west-2
+      - echo 'virginia'
+      
 #      - aws s3 ls
 artifacts:
   files:
-#    - target/my-app-1.0-SNAPSHOT.jar
     - target/MyGroovy-1.0-SNAPSHOT.jar
