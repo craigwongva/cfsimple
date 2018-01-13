@@ -241,30 +241,15 @@ Resources:
                 Branch: master
                 OAuthToken: !Ref githubpassword
               OutputArtifacts:
-                - Name: TemplateSource 
+                - Name: TemplateSourceArtifact 
               RunOrder: 2
-            - Name: VemplateSource
-              ActionTypeId:
-                Category: Source
-                Owner: ThirdParty
-                Version: 1
-                Provider: GitHub
-              Configuration:
-                Owner: craigwongva
-                Repo: wordpress-build-test
-                PollForSourceChanges: false
-                Branch: master
-                OAuthToken: !Ref githubpassword
-              OutputArtifacts:
-                - Name: VemplateSource 
-              RunOrder: 3
         - Name: TestStage
           Actions:
             -
               Name: ValidateTestStack
               InputArtifacts:
                 -
-                  Name: TemplateSource #PeachArtifact
+                  Name: TemplateSourceArtifact #PeachArtifact
               ActionTypeId:
                 Category: Test
                 Owner: AWS
@@ -283,7 +268,7 @@ Resources:
                 Provider: CloudFormation
                 Version: '1'
               InputArtifacts:
-                - Name: TemplateSource
+                - Name: TemplateSourceArtifact
                 - Name: S3BSource
               OutputArtifacts:
                 - Name: PeachArtifact
@@ -291,9 +276,8 @@ Resources:
                 ActionMode: REPLACE_ON_FAILURE
                 RoleArn: !GetAtt [CFNRole, Arn]
                 StackName: !Ref TestStackName
-#                TemplateConfiguration: TemplateSource::fake-config.json
                 TemplateConfiguration: S3BSource::stack-config.json
-                TemplatePath: TemplateSource::cf-saynext.json
+                TemplatePath: TemplateSourceArtifact::cf-saynext.json
               RunOrder: 4
 Outputs:
   artifactStoreBucketOutput:
