@@ -239,7 +239,22 @@ Resources:
                 OAuthToken: !Ref githubpassword
               OutputArtifacts:
                 - Name: CloudFormationSourceArtifact 
-              RunOrder: 3              
+              RunOrder: 3
+            - Name: GeoserverInstallerSource
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Version: 1
+                Provider: GitHub
+              Configuration:
+                Owner: craigwongva
+                Repo: geoserver-installer
+                PollForSourceChanges: false
+                Branch: master
+                OAuthToken: !Ref githubpassword
+              OutputArtifacts:
+                - Name: GeoserverInstallerSourceArtifact 
+              RunOrder: 3
         - Name: TestStage
           Actions:
             -
@@ -263,7 +278,7 @@ Resources:
 #                Provider: CloudFormation
 #                Version: '1'
 #              InputArtifacts:
-#                - Name: TemplateSourceArtifact
+##                - Name: TemplateSourceArtifact
 #                - Name: S3BSource
 #                - Name: CloudFormationSourceArtifact
 #              OutputArtifacts:
@@ -275,6 +290,29 @@ Resources:
 #                TemplateConfiguration: S3BSource::stack-config.json
 #                TemplatePath: CloudFormationSourceArtifact::cf.json
 #              RunOrder: 4
+            - Name: CreateStack
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Provider: CloudFormation
+                Version: '1'
+              InputArtifacts:
+#                - Name: TemplateSourceArtifact
+                - Name: S3BSource
+                - Name: GeoserverInstallerSourceArtifact
+              OutputArtifacts:
+                - Name: Peach2Artifact
+              Configuration:
+                ActionMode: REPLACE_ON_FAILURE
+                RoleArn: !GetAtt [CFNRole, Arn]
+                StackName: !Ref TestStackName
+                 !Join
+                   - '-'
+                   - - !Ref TestStackName
+                     - geoserver                
+                TemplateConfiguration: S3BSource::stack-config.json
+                TemplatePath: GeoserverInstallerSourceArtifact::cf.json
+              RunOrder: 4
 Outputs:
   artifactStoreBucketOutput:
     Value: !Ref ArtifactStoreBucket

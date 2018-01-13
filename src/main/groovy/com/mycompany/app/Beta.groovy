@@ -118,12 +118,21 @@ for (S3ObjectSummary os: objects) {
 }
 */
 
-        def mickey = [
+        def saynext = [
           "curl",  
           "http://saynext.redf4rth.net:8080/my-starter-app/prompt/font"]
          .execute().text
         
-        println mickey
+        println saynext
+
+        println "kansas"
+        
+        def geoserver = [
+          "curl",  
+          "http://geoserver.redf4rth.net/geoserver/web"]
+         .execute().text
+        
+        println geoserver
         
         System.exit(0)
     }
