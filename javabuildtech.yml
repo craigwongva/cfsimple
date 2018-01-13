@@ -13,9 +13,9 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - aws help
-      - echo -----------     --------------         -------------
-      - aws ec2 help
+#      - aws help
+#      - echo -----------     --------------         -------------
+#      - aws ec2 help
 #      - mvn test
   post_build:
     commands:
@@ -32,8 +32,11 @@ phases:
       - TEMP_SAYNEXT_SECGRP=`aws ec2 describe-security-groups --region us-west-2 | jq '.SecurityGroups | .[] | select((.GroupName | contains("saynext"))) | .GroupId' | sed s/\"//g`
       - aws ec2 authorize-security-group-ingress --group-id $TEMP_SAYNEXT_SECGRP --cidr $PUBLICIP/32 --port 8080 --protocol tcp --region us-west-2
       - echo 'virginia'
-      
-#      - aws s3 ls
-artifacts:
-  files:
-    - target/MyGroovy-1.0-SNAPSHOT.jar
+#actually the next two lines aren't needed, thanks to the saynext.redf4rth.net domain entry
+#      - TEMP_TRAC1=`aws cloudformation describe-stack-resources --stack-name sample-Wordpress-pipeline --region us-west-2 | jq '.StackResources | .[].PhysicalResourceId'`
+#      - TEMP_TRAC2=`aws ec2 describe-instances --region us-west-2 | jq ".Reservations | .[] | select((.Instances[].InstanceId | contains($TEMP_TRAC1))) | .Instances | .[].PublicIpAddress" | sed s/\"//g`
+      - curl http://saynext.redf4rth.net:8080/my-starter-app/prompt/font
+      - echo maryland
+#artifacts:
+#  files:
+#    - target/MyGroovy-1.0-SNAPSHOT.jar
