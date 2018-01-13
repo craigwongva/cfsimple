@@ -1,3 +1,5 @@
+#aws cloudformation delete-stack --stack-name Test-MyWordPressSite --region us-west-2
+#sleep 40
 python delete-versioned-bucket.py `aws cloudformation list-exports --query "Exports[?Name=='wordpress-build-test-artifact-store-bucket'].Value" --no-paginate --output text`
 aws cloudformation delete-stack --stack-name sample-Wordpress-pipeline --region us-west-2 
 sleep 30

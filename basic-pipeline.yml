@@ -253,7 +253,7 @@ Resources:
                 Owner: craigwongva
                 Repo: saynext
                 PollForSourceChanges: false
-                Branch: master
+                Branch: three
                 OAuthToken: !Ref githubpassword
               OutputArtifacts:
                 - Name: CloudFormationSourceArtifact 
@@ -285,6 +285,7 @@ Resources:
               InputArtifacts:
                 - Name: TemplateSourceArtifact
                 - Name: S3BSource
+                - Name: CloudFormationSourceArtifact
               OutputArtifacts:
                 - Name: PeachArtifact
               Configuration:
