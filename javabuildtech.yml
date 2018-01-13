@@ -3,12 +3,17 @@ version: 0.2
 phases:
   install:
     commands:
-     - uname -a
-     - lsb_release -a
+#     - uname -a
+#     - lsb_release -a
+     - curl -O -L https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64
+     - chmod +x jq-linux64
+     - sudo mv jq-linux64 /usr/bin/jq
+     - jq
 #      - apt-get install jq -y
   build:
     commands:
       - echo Build started on `date`
+      - aws help
 #      - mvn test
   post_build:
     commands:
