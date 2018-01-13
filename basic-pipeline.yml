@@ -243,6 +243,21 @@ Resources:
               OutputArtifacts:
                 - Name: TemplateSourceArtifact 
               RunOrder: 2
+            - Name: CloudFormationSource
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Version: 1
+                Provider: GitHub
+              Configuration:
+                Owner: craigwongva
+                Repo: saynext
+                PollForSourceChanges: false
+                Branch: master
+                OAuthToken: !Ref githubpassword
+              OutputArtifacts:
+                - Name: CloudFormationSourceArtifact 
+              RunOrder: 3              
         - Name: TestStage
           Actions:
             -
@@ -277,7 +292,8 @@ Resources:
                 RoleArn: !GetAtt [CFNRole, Arn]
                 StackName: !Ref TestStackName
                 TemplateConfiguration: S3BSource::stack-config.json
-                TemplatePath: TemplateSourceArtifact::cf-saynext.json
+#                TemplatePath: TemplateSourceArtifact::cf-saynext.json
+                TemplatePath: CloudFormationSourceArtifact::cf.json
               RunOrder: 4
 Outputs:
   artifactStoreBucketOutput:
