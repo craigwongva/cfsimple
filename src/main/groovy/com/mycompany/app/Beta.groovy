@@ -101,6 +101,7 @@ try {
 }
 */
 
+/*
 Region usWest2 = com.amazonaws.regions.Region.getRegion(Regions.US_WEST_2);
 String r = "us-west-2"
 //fails: final AmazonS3 s3 = AmazonS3ClientBuilder.withRegion(r).defaultClient();
@@ -115,7 +116,15 @@ List<S3ObjectSummary> objects = ol.getObjectSummaries();
 for (S3ObjectSummary os: objects) {
     System.out.println("* " + os.getKey());
 }
+*/
 
+        def mickey = [
+          "curl",  
+          "http://saynext.redf4rth.net:8080/my-starter-app/prompt/font"]
+         .execute().text
+        
+        println mickey
+        
         System.exit(0)
     }
 }
