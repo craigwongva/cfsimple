@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     commands:
-      - yum install jq -y
+      - apt-get install jq -y
   build:
     commands:
       - echo Build started on `date`
