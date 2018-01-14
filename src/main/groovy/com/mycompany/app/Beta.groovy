@@ -133,6 +133,8 @@ for (S3ObjectSummary os: objects) {
          .execute().text
         
         println geoserver
+
+        println "indiana"
         
         System.exit(0)
     }
