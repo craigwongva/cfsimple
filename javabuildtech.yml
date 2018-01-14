@@ -22,9 +22,9 @@ phases:
       - TEMP_GEOSERVER_SECGRP=`aws ec2 describe-security-groups --region us-west-2 | jq '.SecurityGroups | .[] | select((.GroupName | contains("geoserver"))) | .GroupId' | sed s/\"//g`
       - aws ec2 authorize-security-group-ingress --group-id $TEMP_GEOSERVER_SECGRP --cidr $PUBLICIP/32 --port 80 --protocol tcp --region us-west-2 || true
 
-      - if [[ -z "${PAUSE_FOR_USERDATA_COMPLETION}" ]]; then sleep 10s fi
-      - if [[ -n "${PAUSE_FOR_USERDATA_COMPLETION}" ]]; then sleep ${PAUSE_FOR_USERDATA_COMPLETION} fi
-
+      - if [[ -z "${PAUSE_FOR_USERDATA_COMPLETION}" ]]; then sleep 10s; fi
+      - if [[ -n "${PAUSE_FOR_USERDATA_COMPLETION}" ]]; then sleep ${PAUSE_FOR_USERDATA_COMPLETION}; fi
+#if ps aux | grep some_proces[s] > /tmp/test.txt; then echo 1; else echo 0; fi
       - mvn exec:java -Dexec.mainClass="com.mycompany.app.Beta" || true
 
       - echo $PUBLICIP, rc is $?
