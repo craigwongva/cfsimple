@@ -1,22 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Parameters:
-  PipelineName:
-    Description: A name for pipeline
-    Type: String
-  S3Bucket:
-    Description: The name of the S3 bucket that contains the source artifact, which must be in the same region as this stack
-    Type: String
-  TestStackName:
-    Default: Wordpress
-    Description: A name for the test WordPress stack
-    Type: String
-  TestStackConfig:
-    Default: cf-saynext.json
-    Description: The configuration file name for the test WordPress stack
-    Type: String
-  Email:
-    Description: The email address where CodePipeline sends pipeline notifications
-    Type: String
   githubpassword:
     Type: String
 
@@ -26,14 +9,6 @@ Resources:
     Properties:
       VersioningConfiguration:
         Status: Enabled
-
-  CodePipelineSNSTopic:
-    Type: AWS::SNS::Topic
-    Properties:
-      Subscription:
-        - Endpoint: !Ref Email
-          Protocol: email
-
   PipelineRole:
     Type: AWS::IAM::Role
     Properties:
@@ -115,7 +90,6 @@ Resources:
                   - "cloudformation:Describe*"
                   - "cloudformation:List*"
                 Resource:
-#                  - Fn::Sub: arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/Test-${AWS::StackName}*
                   - Fn::Sub: arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/Wordpress-${AWS::StackName}*
               -
                 Effect: "Allow"
@@ -167,7 +141,7 @@ Resources:
     Type: AWS::CodeBuild::Project
     Properties:
       Name: ProactiveDaily
-      Description: Test build to validate the resources created by CFN templates
+      Description: Validate the resources created by CFN templates
       ServiceRole:
         Fn::GetAtt: [ CodeBuildRole, Arn ]
       Artifacts:
@@ -192,7 +166,7 @@ Resources:
         Location: !Ref 'ArtifactStoreBucket'
         Type: S3
       DisableInboundStageTransitions: []
-      Name: !Ref 'PipelineName'
+      Name: wordpress-pipeline
       RoleArn: !GetAtt [PipelineRole, Arn]
       Stages:
         - Name: Sourcing
@@ -209,22 +183,7 @@ Resources:
               OutputArtifacts:
                 - Name: ReposConfigFileArtifact 
               RunOrder: 1
-            - Name: TemplateSource
-              ActionTypeId:
-                Category: Source
-                Owner: ThirdParty
-                Version: 1
-                Provider: GitHub
-              Configuration:
-                Owner: craigwongva
-                Repo: wordpress-build-test
-                PollForSourceChanges: false
-                Branch: master
-                OAuthToken: !Ref githubpassword
-              OutputArtifacts:
-                - Name: TemplateSourceArtifact 
-              RunOrder: 2
-            - Name: SaynextInstallerSource
+            - Name: GetSaynextRepo
               ActionTypeId:
                 Category: Source
                 Owner: ThirdParty
@@ -237,9 +196,9 @@ Resources:
                 Branch: three
                 OAuthToken: !Ref githubpassword
               OutputArtifacts:
-                - Name: CloudFormationSourceArtifact 
-              RunOrder: 3
-            - Name: GeoserverInstallerSource
+                - Name: SaynextRepoArtifact 
+              RunOrder: 2
+            - Name: GetGeoserverRepo
               ActionTypeId:
                 Category: Source
                 Owner: ThirdParty
@@ -252,8 +211,38 @@ Resources:
                 Branch: master
                 OAuthToken: !Ref githubpassword
               OutputArtifacts:
-                - Name: GeoserverInstallerSourceArtifact 
-              RunOrder: 3
+                - Name: GeoserverRepoArtifact 
+              RunOrder: 2
+            - Name: GetGocontainerRepo
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Version: 1
+                Provider: GitHub
+              Configuration:
+                Owner: craigwongva
+                Repo: gocontainer
+                PollForSourceChanges: false
+                Branch: go
+                OAuthToken: !Ref githubpassword
+              OutputArtifacts:
+                - Name: GocontainerRepoArtifact 
+              RunOrder: 2              
+            - Name: GetBuildspec
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Version: 1
+                Provider: GitHub
+              Configuration:
+                Owner: craigwongva
+                Repo: wordpress-build-test
+                PollForSourceChanges: false
+                Branch: master
+                OAuthToken: !Ref githubpassword
+              OutputArtifacts:
+                - Name: BuildspecArtifact 
+              RunOrder: 3              
         - Name: StacksCreation
           Actions:
             - Name: CreateStackSaynext
@@ -264,19 +253,13 @@ Resources:
                 Version: '1'
               InputArtifacts:
                 - Name: ReposConfigFileArtifact
-                - Name: CloudFormationSourceArtifact
-              OutputArtifacts:
-                - Name: PeachArtifact
+                - Name: SaynextRepoArtifact
               Configuration:
                 ActionMode: REPLACE_ON_FAILURE
                 RoleArn: !GetAtt [CFNRole, Arn]
-                StackName:
-                 !Join
-                   - '-'
-                   - - !Ref TestStackName
-                     - saynext
+                StackName: Wordpress-saynext
                 TemplateConfiguration: ReposConfigFileArtifact::stack-config.json
-                TemplatePath: CloudFormationSourceArtifact::cf.json
+                TemplatePath: SaynextRepoArtifact::cf.json
               RunOrder: 4
             - Name: CreateStackGeoserver
               ActionTypeId:
@@ -285,27 +268,36 @@ Resources:
                 Provider: CloudFormation
                 Version: '1'
               InputArtifacts:
-#probably not used:                - Name: TemplateSourceArtifact
                 - Name: ReposConfigFileArtifact
-                - Name: GeoserverInstallerSourceArtifact
-#              OutputArtifacts:
-#                - Name: Peach2Artifact
+                - Name: GeoserverRepoArtifact
               Configuration:
                 ActionMode: REPLACE_ON_FAILURE
                 RoleArn: !GetAtt [CFNRole, Arn]
-                StackName:
-                 !Join
-                   - '-'
-                   - - !Ref TestStackName
-                     - geoserver                
+                StackName: Wordpress-geoserver
                 TemplateConfiguration: ReposConfigFileArtifact::stack-config.json
-                TemplatePath: GeoserverInstallerSourceArtifact::cf.json
+                TemplatePath: GeoserverRepoArtifact::cf.json
               RunOrder: 4
+            - Name: CreateStackGocontainer
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Provider: CloudFormation
+                Version: '1'
+              InputArtifacts:
+                - Name: ReposConfigFileArtifact
+                - Name: GocontainerRepoArtifact
+              Configuration:
+                ActionMode: REPLACE_ON_FAILURE
+                RoleArn: !GetAtt [CFNRole, Arn]
+                StackName: Wordpress-gocontainer
+                TemplateConfiguration: ReposConfigFileArtifact::stack-config.json
+                TemplatePath: GocontainerRepoArtifact::cf-nexus-java.yaml
+              RunOrder: 4              
         - Name: StacksValidation
           Actions:
             - Name: ValidateStacks
               InputArtifacts:
-                - Name: TemplateSourceArtifact
+                - Name: BuildspecArtifact
               ActionTypeId:
                 Category: Test
                 Owner: AWS
