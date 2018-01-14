@@ -186,7 +186,7 @@ Resources:
         Type: GITHUB
         Auth: 
           Type: OAUTH
-      TimeoutInMinutes: 5
+      TimeoutInMinutes: 60
   Pipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
@@ -313,10 +313,7 @@ Resources:
                 Owner: AWS
                 Version: 1
                 Provider: CodeBuild
-              OutputArtifacts:
-                - Name: ValidatedTestStack
-              Configuration:
-                #ProjectName: ValidateResource-sample-Wordpress-pipeline
+            Configuration:
                 ProjectName: 
                   Fn::Sub: ValidateResource-${AWS::StackName}
               RunOrder: 5
