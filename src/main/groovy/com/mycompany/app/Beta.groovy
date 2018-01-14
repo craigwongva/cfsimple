@@ -28,9 +28,6 @@ public class Beta
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
-        println "A dog barks"
-        
         //def mickey = [
         //  "curl",  
         //  "${TEST_STACK_IP}:8080/green/timer/status"]
@@ -117,25 +114,34 @@ for (S3ObjectSummary os: objects) {
     System.out.println("* " + os.getKey());
 }
 */
+        def test = [
+          [ "http://saynext.redf4rth.net:8080/my-starter-app/prompt/font", /js>/ ],
+          [ "http://geoserver.redf4rth.net/geoserver/web/", /org.geoserver.web.GeoServerBasePage/ ],
+        ]
 
-        def saynext = [
-          "curl",  
-          "http://saynext.redf4rth.net:8080/my-starter-app/prompt/font"]
-         .execute().text
+        def iRecognize = []
+        for (int i=0; i<test.size(); i++) {
+          def app = [
+            "curl",  
+            test[i][0]
+          ]
+          .execute().text
         
-        println saynext
+          iRecognize[i] = (app =~ test[i][1] )
+        }
 
-        println "kansas"
-        
-        def geoserver = [
-          "curl",  
-          "http://geoserver.redf4rth.net/geoserver/web/"]
-         .execute().text
-        
-        println geoserver
+        boolean rc = true //iRecognize[0] && iRecognize[1]
+        for (int i=0; i<test.size(); i++) {
+          boolean b = iRecognize[i]
+          println "$b ${test[i][0]}"
+          rc = rc && b 
+        }
 
-        println "indiana"
-        
-        System.exit(0)
+        if (rc) {
+          System.exit(0)
+        }
+        else {
+          System.exit(-1)
+        }
     }
 }
