@@ -51,10 +51,10 @@ public class Beta
 
 
         def env = System.getenv()
-        println env
-        println "Did you see that above?"
-        println env['PAUSE_FOR_USERDATA_COMPLETION']
-        println "Did you see that above2?"
+        if (env['PAUSE_FOR_USERDATA_COMPLETION'].size() > 0) {
+          println "Groovy is pausing: ${env['PAUSE_FOR_USERDATA_COMPLETION']}"
+          sleep 1000*env['PAUSE_FOR_USERDATA_COMPLETION'].toInteger()
+        }
         
         def test = [
           [ "http://saynext.redf4rth.net:8080/my-starter-app/prompt/font", /js>/ ],
