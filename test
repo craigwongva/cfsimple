@@ -1,6 +1,6 @@
-aws cloudformation delete-stack --stack-name Test-MyWordPressSite-saynext --region us-west-2
-aws cloudformation delete-stack --stack-name Test-MyWordPressSite-geoserver --region us-west-2
-sleep 40
+aws cloudformation delete-stack --stack-name Wordpress-saynext --region us-west-2
+aws cloudformation delete-stack --stack-name Wordpress-geoserver --region us-west-2
+sleep 90
 python delete-versioned-bucket.py `aws cloudformation list-exports --query "Exports[?Name=='wordpress-build-test-artifact-store-bucket'].Value" --no-paginate --output text`
 aws cloudformation delete-stack --stack-name wordpress-stack --region us-west-2 
 sleep 30

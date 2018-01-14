@@ -163,11 +163,13 @@ Resources:
                   - Fn::Sub: arn:aws:s3:::${ArtifactStoreBucket}/*
                   - Fn::Sub: arn:aws:s3:::${ArtifactStoreBucket}/*
 
-  ValidateResourceProject:
+#  ValidateResourceProject:
+  ProactiveDailyBuildCodeBuildProject
     Type: AWS::CodeBuild::Project
     Properties:
       Name:
-        Fn::Sub: ValidateResource-${AWS::StackName}
+#        Fn::Sub: ValidateResource-${AWS::StackName}
+        ProactiveDailyBuild
       Description: Test build to validate the resources created by CFN templates
       ServiceRole:
         Fn::GetAtt: [ CodeBuildRole, Arn ]
@@ -175,7 +177,8 @@ Resources:
         Type: S3
         Location: !Ref 'ArtifactStoreBucket'
         Name:
-          Fn::Sub: ValidateResource-${AWS::StackName}
+#          Fn::Sub: ValidateResource-${AWS::StackName}
+          ProactiveDailyBuildArtifact
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
@@ -313,9 +316,10 @@ Resources:
                 Owner: AWS
                 Version: 1
                 Provider: CodeBuild
-            Configuration:
+             Configuration:
                 ProjectName: 
-                  Fn::Sub: ValidateResource-${AWS::StackName}
+#                  Fn::Sub: ValidateResource-${AWS::StackName}
+                  Fn::Sub: ProactiveDailyBuild
               RunOrder: 5
 Outputs:
   artifactStoreBucketOutput:
