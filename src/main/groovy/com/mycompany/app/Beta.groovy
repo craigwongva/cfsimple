@@ -56,7 +56,7 @@ public class Beta
         ]
 
         def env = System.getenv()
-        if (env['PAUSE_FOR_USERDATA_COMPLETION'].size() > 0) {
+        if (env['PAUSE_FOR_USERDATA_COMPLETION']) {
           println "Groovy is pausing: ${env['PAUSE_FOR_USERDATA_COMPLETION']}"
           sleep 1000*env['PAUSE_FOR_USERDATA_COMPLETION'].toInteger()
         }
