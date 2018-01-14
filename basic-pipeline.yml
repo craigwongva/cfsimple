@@ -7,7 +7,7 @@ Parameters:
     Description: The name of the S3 bucket that contains the source artifact, which must be in the same region as this stack
     Type: String
   TestStackName:
-    Default: Test-MyWordPressSite
+    Default: Wordpress
     Description: A name for the test WordPress stack
     Type: String
   TestStackConfig:
@@ -115,7 +115,8 @@ Resources:
                   - "cloudformation:Describe*"
                   - "cloudformation:List*"
                 Resource:
-                  - Fn::Sub: arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/Test-${AWS::StackName}*
+#                  - Fn::Sub: arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/Test-${AWS::StackName}*
+                  - Fn::Sub: arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/Wordpress-${AWS::StackName}*
               -
                 Effect: "Allow"
                 Action:
@@ -225,7 +226,7 @@ Resources:
               OutputArtifacts:
                 - Name: TemplateSourceArtifact 
               RunOrder: 2
-            - Name: CloudFormationSource
+            - Name: SaynextInstallerSource
               ActionTypeId:
                 Category: Source
                 Owner: ThirdParty
@@ -257,7 +258,7 @@ Resources:
               RunOrder: 3
         - Name: CreateStage
           Actions:
-            - Name: CreateStack
+            - Name: CreateStackSaynext
               ActionTypeId:
                 Category: Deploy
                 Owner: AWS
@@ -279,9 +280,7 @@ Resources:
                 TemplateConfiguration: S3BSource::stack-config.json
                 TemplatePath: CloudFormationSourceArtifact::cf.json
               RunOrder: 4
-            - Name: CreateStack
-        - Name: ValidateStage
-          Actions:
+            - Name: CreateStackGeoserver
               ActionTypeId:
                 Category: Deploy
                 Owner: AWS
@@ -304,6 +303,8 @@ Resources:
                 TemplateConfiguration: S3BSource::stack-config.json
                 TemplatePath: GeoserverInstallerSourceArtifact::cf.json
               RunOrder: 4
+        - Name: ValidateStage
+          Actions:
             - Name: ValidateStacks
               InputArtifacts:
                 - Name: TemplateSourceArtifact
@@ -315,7 +316,9 @@ Resources:
               OutputArtifacts:
                 - Name: ValidatedTestStack
               Configuration:
-                ProjectName: ValidateResource-sample-Wordpress-pipeline
+                #ProjectName: ValidateResource-sample-Wordpress-pipeline
+                ProjectName: 
+                  Fn::Sub: ValidateResource-${AWS::StackName}
               RunOrder: 5
 Outputs:
   artifactStoreBucketOutput:
