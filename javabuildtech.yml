@@ -22,14 +22,17 @@ phases:
       - TEMP_GEOSERVER_SECGRP=`aws ec2 describe-security-groups --region us-west-2 | jq '.SecurityGroups | .[] | select((.GroupName | contains("geoserver"))) | .GroupId' | sed s/\"//g`
       - aws ec2 authorize-security-group-ingress --group-id $TEMP_GEOSERVER_SECGRP --cidr $PUBLICIP/32 --port 80 --protocol tcp --region us-west-2 || true
 
+      - sleep $PAUSE_FOR_USERDATA_COMPLETION
+      - if [[ -z "${PAUSE_FOR_USERDATA_COMPLETION}" ]]; then
+          sleep 10s
+        else
+          sleep $PAUSE_FOR_USERDATA_COMPLETION
+        fi
+        
       - mvn exec:java -Dexec.mainClass="com.mycompany.app.Beta" || true
 
       - echo $PUBLICIP, rc is $?
-      
-      - echo $PAUSE_FOR_USERDATA_COMPLETION
-      
-      - echo canada
-      
+
 artifacts:
   files:
     - target/MyGroovy-1.0-SNAPSHOT.jar
