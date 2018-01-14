@@ -129,7 +129,7 @@ for (S3ObjectSummary os: objects) {
         
         def geoserver = [
           "curl",  
-          "http://geoserver.redf4rth.net/geoserver/web"]
+          "http://geoserver.redf4rth.net/geoserver/web/"]
          .execute().text
         
         println geoserver

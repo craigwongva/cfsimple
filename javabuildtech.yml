@@ -26,7 +26,7 @@ phases:
 #succeeds calling AWS SDK for S3, but actually that's not my main task right now, so comment it out:
       - mvn exec:java -Dexec.mainClass="com.mycompany.app.Beta" 
 #      - cat deleteme1002
-      - echo PUBLICIP
+      - echo $PUBLICIP
       
       - echo New Jersey
 artifacts:
