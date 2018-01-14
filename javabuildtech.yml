@@ -22,11 +22,14 @@ phases:
       - TEMP_GEOSERVER_SECGRP=`aws ec2 describe-security-groups --region us-west-2 | jq '.SecurityGroups | .[] | select((.GroupName | contains("geoserver"))) | .GroupId' | sed s/\"//g`
       - aws ec2 authorize-security-group-ingress --group-id $TEMP_GEOSERVER_SECGRP --cidr $PUBLICIP/32 --port 80 --protocol tcp --region us-west-2 || true
 
-#      - curl http://saynext.redf4rth.net:8080/my-starter-app/prompt/font
-#succeeds calling AWS SDK for S3, but actually that's not my main task right now, so comment it out:
       - mvn exec:java -Dexec.mainClass="com.mycompany.app.Beta" || true
-#      - cat deleteme1002
+
       - echo $PUBLICIP, rc is $?
+      
+      - echo $PAUSE_FOR_USERDATA_COMPLETION
+      
+      - echo canada
+      
 artifacts:
   files:
     - target/MyGroovy-1.0-SNAPSHOT.jar
