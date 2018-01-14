@@ -163,22 +163,17 @@ Resources:
                   - Fn::Sub: arn:aws:s3:::${ArtifactStoreBucket}/*
                   - Fn::Sub: arn:aws:s3:::${ArtifactStoreBucket}/*
 
-#  ValidateResourceProject:
-  ProactiveDailyBuildCodeBuildProject:
+  ProactiveDailyCodeBuildProject:
     Type: AWS::CodeBuild::Project
     Properties:
-      Name:
-#        Fn::Sub: ValidateResource-${AWS::StackName}
-        ProactiveDailyBuild
+      Name: ProactiveDaily
       Description: Test build to validate the resources created by CFN templates
       ServiceRole:
         Fn::GetAtt: [ CodeBuildRole, Arn ]
       Artifacts:
         Type: S3
         Location: !Ref 'ArtifactStoreBucket'
-        Name:
-#          Fn::Sub: ValidateResource-${AWS::StackName}
-          ProactiveDailyBuildArtifact
+        Name: ProactiveDailyArtifact
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
@@ -200,9 +195,9 @@ Resources:
       Name: !Ref 'PipelineName'
       RoleArn: !GetAtt [PipelineRole, Arn]
       Stages:
-        - Name: SourceStage
+        - Name: Sourcing
           Actions:
-            - Name: S3ASource
+            - Name: GetReposConfigFile
               ActionTypeId:
                 Category: Source
                 Owner: AWS
@@ -212,7 +207,7 @@ Resources:
                 S3Bucket: redf4rth-private-wordpress-codebuild-config
                 S3ObjectKey: redf4rth-private-wordpress-codebuild-config.zip 
               OutputArtifacts:
-                - Name: S3BSource 
+                - Name: ReposConfigFileArtifact 
               RunOrder: 1
             - Name: TemplateSource
               ActionTypeId:
@@ -259,7 +254,7 @@ Resources:
               OutputArtifacts:
                 - Name: GeoserverInstallerSourceArtifact 
               RunOrder: 3
-        - Name: CreateStage
+        - Name: StacksCreation
           Actions:
             - Name: CreateStackSaynext
               ActionTypeId:
@@ -268,7 +263,7 @@ Resources:
                 Provider: CloudFormation
                 Version: '1'
               InputArtifacts:
-                - Name: S3BSource
+                - Name: ReposConfigFileArtifact
                 - Name: CloudFormationSourceArtifact
               OutputArtifacts:
                 - Name: PeachArtifact
@@ -280,7 +275,7 @@ Resources:
                    - '-'
                    - - !Ref TestStackName
                      - saynext
-                TemplateConfiguration: S3BSource::stack-config.json
+                TemplateConfiguration: ReposConfigFileArtifact::stack-config.json
                 TemplatePath: CloudFormationSourceArtifact::cf.json
               RunOrder: 4
             - Name: CreateStackGeoserver
@@ -290,11 +285,11 @@ Resources:
                 Provider: CloudFormation
                 Version: '1'
               InputArtifacts:
-                - Name: TemplateSourceArtifact
-                - Name: S3BSource
+#probably not used:                - Name: TemplateSourceArtifact
+                - Name: ReposConfigFileArtifact
                 - Name: GeoserverInstallerSourceArtifact
-              OutputArtifacts:
-                - Name: Peach2Artifact
+#              OutputArtifacts:
+#                - Name: Peach2Artifact
               Configuration:
                 ActionMode: REPLACE_ON_FAILURE
                 RoleArn: !GetAtt [CFNRole, Arn]
@@ -303,10 +298,10 @@ Resources:
                    - '-'
                    - - !Ref TestStackName
                      - geoserver                
-                TemplateConfiguration: S3BSource::stack-config.json
+                TemplateConfiguration: ReposConfigFileArtifact::stack-config.json
                 TemplatePath: GeoserverInstallerSourceArtifact::cf.json
               RunOrder: 4
-        - Name: ValidateStage
+        - Name: StacksValidation
           Actions:
             - Name: ValidateStacks
               InputArtifacts:
@@ -317,9 +312,7 @@ Resources:
                 Version: 1
                 Provider: CodeBuild
               Configuration:
-                ProjectName: 
-#                  Fn::Sub: ValidateResource-${AWS::StackName}
-                  ProactiveDailyBuild
+                ProjectName: ProactiveDaily
               RunOrder: 5
 Outputs:
   artifactStoreBucketOutput:
