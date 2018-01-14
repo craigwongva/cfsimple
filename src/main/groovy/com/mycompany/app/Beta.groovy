@@ -49,18 +49,22 @@ public class Beta
     	  //error "red rover3 ${TEST_STACK_IP}:8080/green/timer/status $mickey" 
         //}
 
+        def DEFAULT_PAUSE_FOR_USERDATA_COMPLETION = 5*60 //that's 5m
+        def test = [
+          [ "http://saynext.redf4rth.net:8080/my-starter-app/prompt/font", /js>/ ],
+          [ "http://geoserver.redf4rth.net/geoserver/web/", /org.geoserver.web.GeoServerBasePage/ ],
+        ]
 
         def env = System.getenv()
         if (env['PAUSE_FOR_USERDATA_COMPLETION'].size() > 0) {
           println "Groovy is pausing: ${env['PAUSE_FOR_USERDATA_COMPLETION']}"
           sleep 1000*env['PAUSE_FOR_USERDATA_COMPLETION'].toInteger()
         }
+        else {
+          println "Groovy is pausing the default $DEFAULT_PAUSE_FOR_USERDATA_COMPLETION"
+          sleep 1000*DEFAULT_PAUSE_FOR_USERDATA_COMPLETION
+        }
         
-        def test = [
-          [ "http://saynext.redf4rth.net:8080/my-starter-app/prompt/font", /js>/ ],
-          [ "http://geoserver.redf4rth.net/geoserver/web/", /org.geoserver.web.GeoServerBasePage/ ],
-        ]
-
         def iRecognize = []
         for (int i=0; i<test.size(); i++) {
           def app = [
