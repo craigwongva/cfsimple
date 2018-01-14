@@ -87,3 +87,15 @@ mentions Autnhorize Application page when hooking CodeBuild with GitHub, but I c
 $ python delete-versioned-bucket.py `aws cloudformation list-exports --query "Exports[?Name=='wordpress-build-test-artifact-store-bucket'].Value" --no-paginate --output text`
 $ aws cloudformation delete-stack --stack-name sample-Wordpress-pipeline --region us-west-2 
 
+--
+How to delete a CF stack when DELETE_FAILED
+
+problem#1: Can't assume IAM role
+solution: Manually create an IAM role, with trust relationship with CloudFormation. It doesn't need any policy.
+
+problem#2: You are not authorized to delete the EC2 instance.
+solution: `sts decode-authorization-message --encoded-message abcdefg` didn't translate the message for some reason, something about wrong format,
+but I checked and there's no embedded linefeed.
+Anyway, the EC2 instances were stopped. I tried the stack delete again and it failed.
+I started the EC2 instance. I tried the stack delete, accepting the option to skip the EC2 instance
+if its deletion failed during the stack delete. Then I was able to terminate the EC2 instance manually.
