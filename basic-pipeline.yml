@@ -164,7 +164,7 @@ Resources:
                   - Fn::Sub: arn:aws:s3:::${ArtifactStoreBucket}/*
 
 #  ValidateResourceProject:
-  ProactiveDailyBuildCodeBuildProject
+  ProactiveDailyBuildCodeBuildProject:
     Type: AWS::CodeBuild::Project
     Properties:
       Name:
@@ -316,10 +316,10 @@ Resources:
                 Owner: AWS
                 Version: 1
                 Provider: CodeBuild
-             Configuration:
+              Configuration:
                 ProjectName: 
 #                  Fn::Sub: ValidateResource-${AWS::StackName}
-                  Fn::Sub: ProactiveDailyBuild
+                  ProactiveDailyBuild
               RunOrder: 5
 Outputs:
   artifactStoreBucketOutput:
