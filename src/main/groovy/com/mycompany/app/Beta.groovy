@@ -48,72 +48,14 @@ public class Beta
         //  '4444444444444444444444444444444444444444444444444444444444') < 0) {
     	  //error "red rover3 ${TEST_STACK_IP}:8080/green/timer/status $mickey" 
         //}
- /*       
-        def minnie = [
-            "curl",
-            "http://www.clarabridge.com"]
-            .execute().text
-        println minnie    
-*/
-String bucket_name = 'deleteme1001'
-//bucket_name = 'pcf-east-io-aws-broker-778a5f30-e73b-4e67-8139-ff7de4d51e3c'
-/* succeeds:
-final AmazonS3 s3 = AmazonS3ClientBuilder.defaultClient();
-Bucket b = null;
-if (s3.doesBucketExist(bucket_name)) {
-    System.out.format("Bucket %s already exists.\n", bucket_name);
-    b = getBucket(bucket_name);
-} else {
-    try {
-        b = s3.createBucket(bucket_name);
-    } catch (AmazonS3Exception e) {
-        System.err.println(e.getErrorMessage());
-    }
-}
-//return b;
-*/
-/* Download an object (yes, this code works):
-String key_name = 'deleteme1002'
-final AmazonS3 s3 = AmazonS3ClientBuilder.defaultClient();
-try {
-    S3Object o = s3.getObject(bucket_name, key_name);
-    S3ObjectInputStream s3is = o.getObjectContent();
-    FileOutputStream fos = new FileOutputStream(new File(key_name));
-    byte[] read_buf = new byte[1024];
-    int read_len = 0;
-    while ((read_len = s3is.read(read_buf)) > 0) {
-        fos.write(read_buf, 0, read_len);
-    }
-    s3is.close();
-    fos.close();
-} catch (AmazonServiceException e) {
-    System.err.println(e.getErrorMessage());
-    System.exit(1);
-} catch (FileNotFoundException e) {
-    System.err.println(e.getMessage());
-    System.exit(1);
-} catch (IOException e) {
-    System.err.println(e.getMessage());
-    System.exit(1);
-}
-*/
 
-/*
-Region usWest2 = com.amazonaws.regions.Region.getRegion(Regions.US_WEST_2);
-String r = "us-west-2"
-//fails: final AmazonS3 s3 = AmazonS3ClientBuilder.withRegion(r).defaultClient();
-//s3.setRegion(usWest2)
-AmazonS3 s3 = 
-        AmazonS3ClientBuilder.standard()
-                             .withRegion("us-west-2") // The first region to try your request against
-                            // .withForceGlobalBucketAccess(true) // If a bucket is in a different region, try again in the correct region
-                             .build();
-ObjectListing ol = s3.listObjects(bucket_name);
-List<S3ObjectSummary> objects = ol.getObjectSummaries();
-for (S3ObjectSummary os: objects) {
-    System.out.println("* " + os.getKey());
-}
-*/
+
+        def env = System.getenv()
+        println env
+        println "Did you see that above?"
+        println env['PAUSE_FOR_USERDATA_COMPLETION']
+        println "Did you see that above2?"
+        
         def test = [
           [ "http://saynext.redf4rth.net:8080/my-starter-app/prompt/font", /js>/ ],
           [ "http://geoserver.redf4rth.net/geoserver/web/", /org.geoserver.web.GeoServerBasePage/ ],
