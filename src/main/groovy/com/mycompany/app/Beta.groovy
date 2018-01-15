@@ -44,7 +44,7 @@ public class Beta
         def phantom = [
 //          "BUILD_ID=dontKillMe",
 
-          "/home/ubuntu/gocontainer-phantom-public/ubuntu/invoke-phantom",
+          "gocontainer-phantom-public/ubuntu/invoke-phantom",
           "52.10.249.201",
           "&"
 
