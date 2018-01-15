@@ -59,11 +59,11 @@ public class Beta
         println "como no se ve"
 //        println phantom
         println "empieza su semana"
-//['sh', '-c', cmd].execute()        
+        //Groovy won't run the job in background, even with the &
         def phantom2 = "/usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js &"
-        def phantom3 = ['sh', '-c', phantom2].execute().text
+//        def phantom3 = ['sh', '-c', phantom2].execute().text
         println "una sonrisa anaranja"
-        println phantom3
+//        println phantom3
         println "una sonrisa azul"
         
         def iRecognize = []
