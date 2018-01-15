@@ -52,7 +52,7 @@ public class Beta
 //          "52.10.249.201",
 //          "&'"
 
-            "ls", "gocontainer-phantom-public"
+            "ls", "gocontainer-phantom-public/ubuntu"
         ]
         .execute().text        
         println phantom
