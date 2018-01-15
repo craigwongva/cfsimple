@@ -5,15 +5,17 @@ phases:
     commands:
       - DIR_AT_START=`pwd`
       #Install jq via curl, not apt-get.    
-      - cd ~
+      - cd $DIR_AT_START
       - curl -O -L https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64
       - chmod +x jq-linux64
       - sudo mv jq-linux64 /usr/bin/jq
       #Install phantomjs
-      - cd ~
+      - cd $DIR_AT_START
       - git clone http://github.com/craigwongva/gocontainer-phantom-public
       - cd gocontainer-phantom-public/ubuntu
+      - pwd
       - ./install-phantom
+      - ls
 #      - BUILD_ID=dontKillMe ./invoke-phantom 52.10.249.201 &
 #      - sleep 10
 #      - cat invoke-phantom.js
@@ -25,7 +27,7 @@ phases:
 #      - mvn test
   post_build:
     commands:
-      - cd $DIR_AT_START
+      - cd $DIR_AT_START/gocontainer
       - mvn package > keep_stdout_readable
 
       - PUBLICIP=`curl http://checkip.amazonaws.com/32`
