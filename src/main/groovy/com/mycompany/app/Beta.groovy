@@ -54,9 +54,9 @@ public class Beta
 
 //            "ls", "gocontainer-phantom-public/ubuntu"
         ]
-        .execute().text
-        sleep 1000*10
-        println "como no se ve"
+//        .execute().text
+//        sleep 1000*10
+//        println "como no se ve"
 //        println phantom
         println "empieza su semana"
         //Groovy won't run the job in background, even with the &
