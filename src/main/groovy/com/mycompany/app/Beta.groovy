@@ -29,14 +29,13 @@ public class Beta
         def test = [
           [ "http://saynext.redf4rth.net:8080/my-starter-app/prompt/font", /js>/ ],
           [ "http://geoserver.redf4rth.net/geoserver/web/", /org.geoserver.web.GeoServerBasePage/ ],
+          [ "http://52.10.249.201:8080/green/timer/dots",/4444444444/ ]
         ]
 
         def env = System.getenv()
         if (env['PAUSE_FOR_USERDATA_COMPLETION']) {
           println "Groovy is pausing: ${env['PAUSE_FOR_USERDATA_COMPLETION']}"
-          println "aaa"
           sleep 1000*env['PAUSE_FOR_USERDATA_COMPLETION'].toInteger()
-          println "bbb"
         }
         else {
           println "Groovy is pausing the default $DEFAULT_PAUSE_FOR_USERDATA_COMPLETION"
