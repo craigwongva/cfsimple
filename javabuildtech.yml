@@ -16,9 +16,12 @@ phases:
 #      - pwd
       - ./install-phantom
 #      - ls
-#      - BUILD_ID=dontKillMe ./invoke-phantom 52.10.249.201 &
+      - BUILD_ID=dontKillMe 
+      - echo javabuildtech20
+      - ./invoke-phantom 52.10.249.201
 #      - sleep 10
-#      - cat invoke-phantom.js
+      - echo javabuildtech23
+      - cat invoke-phantom.js
 
   build:
     commands:
@@ -40,14 +43,14 @@ phases:
       - aws ec2 authorize-security-group-ingress --group-id $TEMP_GEOSERVER_SECGRP --cidr $PUBLICIP/32 --port 80 --protocol tcp --region us-west-2 || true
 
 
-      - mvn exec:java -Dexec.mainClass="com.mycompany.app.Beta" || true
+#      - mvn exec:java -Dexec.mainClass="com.mycompany.app.Beta" || true
 
       - echo $PUBLICIP, $DIR_AT_START, rc is $?
       
-      - cat gocontainer-phantom-public/ubuntu/invoke-phantom.js
-      - ps -ef || true      
-      - pkill -f phantomjs || true
-      - ps -ef | grep phantom || true
+#      - cat gocontainer-phantom-public/ubuntu/invoke-phantom.js
+#      - ps -ef || true      
+#      - pkill -f phantomjs || true
+#      - ps -ef | grep phantom || true
 artifacts:
   files:
     - target/MyGroovy-1.0-SNAPSHOT.jar
