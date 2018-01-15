@@ -3,6 +3,7 @@ version: 0.2
 phases:
   install:
     commands:
+      - DIR_AT_START=`pwd`
       #Install jq via curl, not apt-get.    
       - cd ~
       - curl -O -L https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64
@@ -20,10 +21,11 @@ phases:
   build:
     commands:
       - echo empty build stage, oh well
-      - sleep 20
+#      - sleep 20
 #      - mvn test
   post_build:
     commands:
+      - cd $DIR_AT_START
       - mvn package
 
       - PUBLICIP=`curl http://checkip.amazonaws.com/32`
