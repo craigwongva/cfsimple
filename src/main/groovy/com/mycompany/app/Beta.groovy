@@ -54,7 +54,9 @@ public class Beta
 
 //            "ls", "gocontainer-phantom-public/ubuntu"
         ]
-        .execute().text        
+        .execute().text
+        sleep 1000*10
+        println "como no se ve"
         println phantom
         println "empieza su semana"
         
