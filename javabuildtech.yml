@@ -12,7 +12,7 @@ phases:
       - cd ~
       - git clone http://github.com/craigwongva/gocontainer-phantom-public
       - cd gocontainer-phantom-public/ubuntu
-      - ./install-phantomjs
+      - ./install-phantom
       - BUILD_ID=dontKillMe ./invoke-phantom www.ibm.com &
 
   build:
