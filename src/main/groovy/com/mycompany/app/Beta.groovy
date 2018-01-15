@@ -50,7 +50,7 @@ public class Beta
 //          "'cd gocontainer-phantom-public/ubuntu;",
 //          "./invoke-phantom",
 //          "52.10.249.201",
-//          "&'"
+            "&"
 
 //            "ls", "gocontainer-phantom-public/ubuntu"
         ]
