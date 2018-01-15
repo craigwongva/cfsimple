@@ -56,6 +56,7 @@ public class Beta
         
         def iRecognize = []
         for (int i=0; i<test.size(); i++) {
+          println i
           def app = [
             "curl",  
             test[i][0]
@@ -64,7 +65,7 @@ public class Beta
         
           iRecognize[i] = (app =~ test[i][1] )
         }
-
+        println "ddd"
         boolean rc = true //iRecognize[0] && iRecognize[1]
         for (int i=0; i<test.size(); i++) {
           boolean b = iRecognize[i]
