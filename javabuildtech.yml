@@ -42,7 +42,8 @@ phases:
       - mvn exec:java -Dexec.mainClass="com.mycompany.app.Beta" || true
 
       - echo $PUBLICIP, $DIR_AT_START, rc is $?
-      - ps -ef | grep phantom || true      
+      - cat gocontainer-phantom-public/ubuntu/invoke-phantom.js
+      - ps -ef || true      
       - pkill -f phantomjs || true
       - ps -ef | grep phantom || true
 artifacts:
