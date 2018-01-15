@@ -27,7 +27,7 @@ phases:
 #      - mvn test
   post_build:
     commands:
-      - cd $DIR_AT_START/gocontainer
+      - cd $DIR_AT_START/wordpress-build-test
       - mvn package > keep_stdout_readable
 
       - PUBLICIP=`curl http://checkip.amazonaws.com/32`
