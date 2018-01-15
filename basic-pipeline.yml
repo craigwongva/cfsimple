@@ -290,7 +290,7 @@ Resources:
                 ActionMode: REPLACE_ON_FAILURE
                 RoleArn: !GetAtt [CFNRole, Arn]
                 StackName: Wordpress-gocontainer
-                TemplateConfiguration: ReposConfigFileArtifact::stack-config.json
+#                TemplateConfiguration: ReposConfigFileArtifact::stack-config.json
                 TemplatePath: GocontainerRepoArtifact::cf-nexus-java.yaml
               RunOrder: 4              
         - Name: StacksValidation
