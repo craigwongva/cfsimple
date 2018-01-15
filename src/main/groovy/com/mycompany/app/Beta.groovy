@@ -44,7 +44,7 @@ public class Beta
         }
         println "ccc"
         def phantom = [
-            "gocontainer-phantom-public/ubuntu/invoke-phantom", "hairball"//,
+            "gocontainer-phantom-public/ubuntu/invoke-phantom", "52.10.249.201"//,
 //          "BUILD_ID=dontKillMe",
 //          "bash", "-c",
 //          "'cd gocontainer-phantom-public/ubuntu;",
@@ -60,8 +60,8 @@ public class Beta
 //        println phantom
         println "empieza su semana"
         def phantom2 = [
-          "/usr/bin/phantomjs", "BUBBLEGUM",
-          //"gocontainer-phantom-public/ubuntu/invoke-phantom.js &"//,
+          "/usr/bin/phantomjs",
+          "gocontainer-phantom-public/ubuntu/invoke-phantom.js",
           "&"
         ].execute().text
         println "una sonrisa anaranja"
