@@ -50,7 +50,7 @@ public class Beta
 
 //            "pwd"
         ]
-        .execute().text        
+//        .execute().text        
         
         def iRecognize = []
         for (int i=0; i<test.size(); i++) {
