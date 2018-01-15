@@ -60,8 +60,9 @@ public class Beta
 //        println phantom
         println "empieza su semana"
         def phantom2 = [
-          "phantomjs",
-          "gocontainer-phantom-public/ubuntu/invoke-phantom.js &"//, "&"
+          "phantomjs BUBBLEGUM",
+          //"gocontainer-phantom-public/ubuntu/invoke-phantom.js &"//,
+          "&"
         ].execute().text
         println "una sonrisa anaranja"
         println phantom2
