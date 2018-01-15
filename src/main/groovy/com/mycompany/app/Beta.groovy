@@ -29,7 +29,7 @@ public class Beta
         def test = [
           [ "http://saynext.redf4rth.net:8080/my-starter-app/prompt/font", /js>/ ],
           [ "http://geoserver.redf4rth.net/geoserver/web/", /org.geoserver.web.GeoServerBasePage/ ],
-          [ "http://52.10.249.201:8080/green/timer/dots",/4444444444/ ]
+          [ "http://52.10.249.201:8080/green/timer/status",/4444444444/ ]
         ]
 
         def env = System.getenv()
@@ -52,7 +52,7 @@ public class Beta
             test[i][0]
           ]
           .execute().text
-        
+if (i==2) println app        
           iRecognize[i] = (app =~ test[i][1] )
         }
 
