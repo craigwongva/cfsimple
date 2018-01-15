@@ -38,7 +38,7 @@ phases:
       - aws ec2 authorize-security-group-ingress --group-id $TEMP_GEOSERVER_SECGRP --cidr $PUBLICIP/32 --port 80 --protocol tcp --region us-west-2 || true
 
 
-      - mvn exec:java -Dexec.mainClass="com.mycompany.app.Beta" || true
+#      - mvn exec:java -Dexec.mainClass="com.mycompany.app.Beta" || true
 
       - echo $PUBLICIP, $DIR_AT_START, rc is $?
       
