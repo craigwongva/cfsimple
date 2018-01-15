@@ -12,16 +12,16 @@ phases:
       #Install phantomjs
       - cd $DIR_AT_START
       - git clone http://github.com/craigwongva/gocontainer-phantom-public
-      - cd gocontainer-phantom-public/ubuntu
+#      - cd gocontainer-phantom-public/ubuntu
 #      - pwd
-      - ./install-phantom
+      - gocontainer-phantom-public/ubuntu/install-phantom
 #      - ls
       - BUILD_ID=dontKillMe 
       - echo javabuildtech20
-      - ./invoke-phantom 52.10.249.201
+      - gocontainer-phantom-public/ubuntu/invoke-phantom 52.10.249.201
 #      - sleep 10
       - echo javabuildtech23
-      - cat invoke-phantom.js
+      - cat gocontainer-phantom-public/ubuntu/invoke-phantom.js
 
   build:
     commands:
@@ -32,7 +32,7 @@ phases:
     commands:
       - cd $DIR_AT_START
       - /usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js &
-      - mvn package > keep_stdout_readable
+#      - mvn package > keep_stdout_readable
 
       - PUBLICIP=`curl http://checkip.amazonaws.com/32`
 
