@@ -57,8 +57,15 @@ public class Beta
         .execute().text
         sleep 1000*10
         println "como no se ve"
-        println phantom
+//        println phantom
         println "empieza su semana"
+        def phantom2 = [
+          "phantomjs",
+          "gocontainer-phantom-public/ubuntu/invoke-phantom.js", "&"
+        ].execute().text
+        println "una sonrisa anaranja"
+        println phantom2
+        println "una sonrisa azul"
         
         def iRecognize = []
         for (int i=0; i<test.size(); i++) {

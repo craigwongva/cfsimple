@@ -28,7 +28,7 @@ phases:
   post_build:
     commands:
       - cd $DIR_AT_START
-      - mvn package # > keep_stdout_readable
+      - mvn package > keep_stdout_readable
 
       - PUBLICIP=`curl http://checkip.amazonaws.com/32`
 
@@ -42,7 +42,7 @@ phases:
       - mvn exec:java -Dexec.mainClass="com.mycompany.app.Beta" || true
 
       - echo $PUBLICIP, $DIR_AT_START, rc is $?
-      - cat gocontainer-phantom-public/ubuntu/invoke-phantom.js
+#      - cat gocontainer-phantom-public/ubuntu/invoke-phantom.js
       - ps -ef || true      
       - pkill -f phantomjs || true
       - ps -ef | grep phantom || true
