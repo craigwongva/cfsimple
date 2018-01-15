@@ -45,8 +45,8 @@ public class Beta
         println "ccc"
         def phantom = [
 //          "BUILD_ID=dontKillMe",
-
-          "gocontainer-phantom-public/ubuntu/invoke-phantom",
+          "cd gocontainer-phantom-public/ubuntu;"
+          "./invoke-phantom",
           "52.10.249.201",
           "&"
 
