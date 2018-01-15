@@ -48,9 +48,9 @@ phases:
       - echo $PUBLICIP, $DIR_AT_START, rc is $?
       
 #      - cat gocontainer-phantom-public/ubuntu/invoke-phantom.js
-#      - ps -ef || true      
-#      - pkill -f phantomjs || true
-#      - ps -ef | grep phantom || true
+      - ps -ef || true      
+      - pkill -f phantomjs || true
+      - ps -ef | grep phantom || true
 artifacts:
   files:
     - target/MyGroovy-1.0-SNAPSHOT.jar
