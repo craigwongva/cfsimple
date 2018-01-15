@@ -53,6 +53,8 @@ public class Beta
 //            "pwd"
         ]
         .execute().text        
+        println phantom
+        println "empieza su semana"
         
         def iRecognize = []
         for (int i=0; i<test.size(); i++) {
@@ -61,9 +63,9 @@ public class Beta
             "curl", "--max-time 10",  
             test[i][0]
           ]
-          .execute().text
+//          .execute().text
         
-          iRecognize[i] = (app =~ test[i][1] )
+          iRecognize[i] = true //(app =~ test[i][1] )
         }
         println "ddd"
         boolean rc = true //iRecognize[0] && iRecognize[1]
