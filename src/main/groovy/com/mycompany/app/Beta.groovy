@@ -42,30 +42,9 @@ public class Beta
           println "Groovy is pausing the default $DEFAULT_PAUSE_FOR_USERDATA_COMPLETION"
           sleep 1000*DEFAULT_PAUSE_FOR_USERDATA_COMPLETION
         }
-        println "ccc"
-        def phantom = [
-            "gocontainer-phantom-public/ubuntu/invoke-phantom", "52.10.249.201"
-//          "BUILD_ID=dontKillMe",
-//          "bash", "-c",
-//          "'cd gocontainer-phantom-public/ubuntu;",
-//          "./invoke-phantom",
-//          "52.10.249.201",
-//            "&"
 
-//            "ls", "gocontainer-phantom-public/ubuntu"
-        ]
-//        .execute().text
-//        sleep 1000*10
-//        println "como no se ve"
-//        println phantom
-        println "empieza su semana"
         //Groovy won't run the job in background, even with the &
-        def phantom2 = "/usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js &"
-//        def phantom3 = ['sh', '-c', phantom2].execute().text
-        println "una sonrisa anaranja"
-//        println phantom3
-        println "una sonrisa azul"
-        
+
         def iRecognize = []
         for (int i=0; i<test.size(); i++) {
           println i
@@ -73,12 +52,12 @@ public class Beta
             "curl", "--max-time 10",  
             test[i][0]
           ]
-//          .execute().text
+          .execute().text
         
-          iRecognize[i] = true //(app =~ test[i][1] )
+          iRecognize[i] = (app =~ test[i][1] )
         }
-        println "ddd"
-        boolean rc = true //iRecognize[0] && iRecognize[1]
+
+        boolean rc = true
         for (int i=0; i<test.size(); i++) {
           boolean b = iRecognize[i]
           println "$b ${test[i][0]}"
