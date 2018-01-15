@@ -59,13 +59,11 @@ public class Beta
         println "como no se ve"
 //        println phantom
         println "empieza su semana"
-        def phantom2 = [
-          "/usr/bin/phantomjs",
-          "gocontainer-phantom-public/ubuntu/invoke-phantom.js",
-          "&"
-        ].execute().text
+//['sh', '-c', cmd].execute()        
+        def phantom2 = "/usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js &"
+        def phantom3 = ['sh' '-c', phantom2].execute().text
         println "una sonrisa anaranja"
-        println phantom2
+        println phantom3
         println "una sonrisa azul"
         
         def iRecognize = []
