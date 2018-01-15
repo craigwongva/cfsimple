@@ -52,7 +52,7 @@ public class Beta
 //          "52.10.249.201",
 //          "&'"
 
-            "pwd"
+            "ls"
         ]
         .execute().text        
         println phantom
