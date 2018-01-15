@@ -4,9 +4,16 @@ phases:
   install:
     commands:
       #Install jq via curl, not apt-get.    
+      - cd ~
       - curl -O -L https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64
       - chmod +x jq-linux64
       - sudo mv jq-linux64 /usr/bin/jq
+      #Install phantomjs
+      - cd ~
+      - git clone https://github.com/craigwongva/install-phantomjs
+      - cd install-phantomjs
+      - ./install-phantomjs
+
   build:
     commands:
 #      - mvn test
@@ -22,10 +29,12 @@ phases:
       - TEMP_GEOSERVER_SECGRP=`aws ec2 describe-security-groups --region us-west-2 | jq '.SecurityGroups | .[] | select((.GroupName | contains("geoserver"))) | .GroupId' | sed s/\"//g`
       - aws ec2 authorize-security-group-ingress --group-id $TEMP_GEOSERVER_SECGRP --cidr $PUBLICIP/32 --port 80 --protocol tcp --region us-west-2 || true
 
+
       - mvn exec:java -Dexec.mainClass="com.mycompany.app.Beta" || true
 
       - echo $PUBLICIP, rc is $?
-
+      
+      - pkill -f phantomjs || true
 artifacts:
   files:
     - target/MyGroovy-1.0-SNAPSHOT.jar

@@ -49,7 +49,7 @@ public class Beta
     	  //error "red rover3 ${TEST_STACK_IP}:8080/green/timer/status $mickey" 
         //}
 
-        def DEFAULT_PAUSE_FOR_USERDATA_COMPLETION = 5*60 //that's 5m
+        def DEFAULT_PAUSE_FOR_USERDATA_COMPLETION = 30*60 //that's 30m
         def test = [
           [ "http://saynext.redf4rth.net:8080/my-starter-app/prompt/font", /js>/ ],
           [ "http://geoserver.redf4rth.net/geoserver/web/", /org.geoserver.web.GeoServerBasePage/ ],
@@ -64,7 +64,14 @@ public class Beta
           println "Groovy is pausing the default $DEFAULT_PAUSE_FOR_USERDATA_COMPLETION"
           sleep 1000*DEFAULT_PAUSE_FOR_USERDATA_COMPLETION
         }
-        
+/*        
+        def phantom = [
+          "BUILD_ID=dontKillMe",
+          "/home/ubuntu/invoke-phantom",
+          "gocontainer.redf4rth.net"
+        ]
+        .execute().text        
+*/        
         def iRecognize = []
         for (int i=0; i<test.size(); i++) {
           def app = [
