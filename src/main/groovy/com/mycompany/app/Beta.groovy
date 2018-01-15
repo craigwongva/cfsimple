@@ -43,9 +43,12 @@ public class Beta
         
         def phantom = [
 //          "BUILD_ID=dontKillMe",
-          "/home/ubuntu/container-phantom-public/ubuntu/invoke-phantom",
-          "52.10.249.201",
-          "&"
+
+//          "/home/ubuntu/container-phantom-public/ubuntu/invoke-phantom",
+//          "52.10.249.201",
+//          "&"
+
+            "pwd"
         ]
         .execute().text        
         
