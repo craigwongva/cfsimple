@@ -27,7 +27,7 @@ phases:
     commands:
       - cd $DIR_AT_START
       - /usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js &
-#      - mvn package > keep_stdout_readable
+      - mvn package > keep_stdout_readable
 
       - PUBLICIP=`curl http://checkip.amazonaws.com/32`
 
