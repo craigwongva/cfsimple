@@ -44,7 +44,7 @@ public class Beta
         }
         println "ccc"
         def phantom = [
-            "gocontainer-phantom-public/ubuntu/invoke-phantom hairball"
+//            "gocontainer-phantom-public/ubuntu/invoke-phantom hairball"
 //          "BUILD_ID=dontKillMe",
 //          "bash", "-c",
 //          "'cd gocontainer-phantom-public/ubuntu;",
@@ -52,7 +52,7 @@ public class Beta
 //          "52.10.249.201",
 //          "&'"
 
-//            "pwd"
+            "pwd"
         ]
         .execute().text        
         println phantom
