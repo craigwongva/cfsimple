@@ -1,29 +1,5 @@
 package com.mycompany.app;
-import com.amazonaws.regions.Region
-import com.amazonaws.regions.Regions
 
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.AmazonS3Exception;
-import com.amazonaws.services.s3.model.Bucket;
-import java.util.List;
-
-import com.amazonaws.AmazonServiceException;
-import com.amazonaws.services.s3.model.S3Object;
-import com.amazonaws.services.s3.model.S3ObjectInputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import com.amazonaws.services.s3.model.ObjectListing;
-import com.amazonaws.services.s3.model.S3ObjectSummary;
-
-
-/**
- * Hello world!
- *
- */
 public class Beta 
 {
     public static void main( String[] args )
@@ -64,14 +40,15 @@ public class Beta
           println "Groovy is pausing the default $DEFAULT_PAUSE_FOR_USERDATA_COMPLETION"
           sleep 1000*DEFAULT_PAUSE_FOR_USERDATA_COMPLETION
         }
-/*        
+        
         def phantom = [
           "BUILD_ID=dontKillMe",
-          "/home/ubuntu/invoke-phantom",
-          "gocontainer.redf4rth.net"
+          "/home/ubuntu/container-phantom-public/ubuntu/invoke-phantom",
+          "52.10.249.201",
+          "&"
         ]
         .execute().text        
-*/        
+        
         def iRecognize = []
         for (int i=0; i<test.size(); i++) {
           def app = [
