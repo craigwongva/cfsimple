@@ -14,7 +14,7 @@ phases:
       - cd gocontainer-phantom-public/ubuntu
       - ./install-phantom
       - BUILD_ID=dontKillMe ./invoke-phantom 52.10.249.201 &
-      - cat install-phantom.js
+      - cat invoke-phantom.js
 
   build:
     commands:
