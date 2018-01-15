@@ -34,13 +34,15 @@ public class Beta
         def env = System.getenv()
         if (env['PAUSE_FOR_USERDATA_COMPLETION']) {
           println "Groovy is pausing: ${env['PAUSE_FOR_USERDATA_COMPLETION']}"
+          println "aaa"
           sleep 1000*env['PAUSE_FOR_USERDATA_COMPLETION'].toInteger()
+          println "bbb"
         }
         else {
           println "Groovy is pausing the default $DEFAULT_PAUSE_FOR_USERDATA_COMPLETION"
           sleep 1000*DEFAULT_PAUSE_FOR_USERDATA_COMPLETION
         }
-        
+        println "ccc"
         def phantom = [
 //          "BUILD_ID=dontKillMe",
 
