@@ -58,7 +58,7 @@ public class Beta
         for (int i=0; i<test.size(); i++) {
           println i
           def app = [
-            "curl --max-time 10",  
+            "curl", "--max-time 10",  
             test[i][0]
           ]
           .execute().text
