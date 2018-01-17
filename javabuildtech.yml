@@ -14,10 +14,7 @@ phases:
       - git clone http://github.com/craigwongva/gocontainer-phantom-public
       - gocontainer-phantom-public/ubuntu/install-phantom
       - BUILD_ID=dontKillMe 
-      - echo javabuildtech20
-      - gocontainer-phantom-public/ubuntu/invoke-phantom 52.10.249.201
-#      - sleep 10
-      - echo javabuildtech23
+      - gocontainer-phantom-public/ubuntu/invoke-phantom gocontainer.redf4rth.net
       - cat gocontainer-phantom-public/ubuntu/invoke-phantom.js
 
   build:
