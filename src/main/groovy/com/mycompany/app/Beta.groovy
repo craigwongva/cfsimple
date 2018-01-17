@@ -47,11 +47,14 @@ public class Beta
 
         def iRecognize = []
         for (int i=0; i<test.size(); i++) {
+         println "-------------------------start $i---------------"          
           def app = [
             "curl", "--max-time", "10",  
             test[i][0]
           ]
           .execute().text
+          println app
+          println "-------------------------end $i---------------"
 
           iRecognize[i] = (app =~ test[i][1] )
         }
