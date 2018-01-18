@@ -47,7 +47,7 @@ public class Beta
         def mydir = ["pwd"].execute().text
         println "I'm groovy. My dir is $mydir"
         def myls =  ["ls"].execute().text
-        println "I'm groovy (again). My ls is $ls"
+        println "I'm groovy (again). My ls is $myls"
 
         def iRecognize = []
         for (int i=0; i<test.size(); i++) {
