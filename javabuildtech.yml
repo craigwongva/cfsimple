@@ -26,7 +26,8 @@ phases:
       
       - if  [ -z $PAUSE_FOR_USERDATA_COMPLETION ]  ; then sleep 1200 ; else sleep $PAUSE_FOR_USERDATA_COMPLETION ; fi
       - /usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js &
-
+      - sleep 120
+      
       - mvn package > keep_stdout_readable
 
       - PUBLICIP=`curl http://checkip.amazonaws.com/32`

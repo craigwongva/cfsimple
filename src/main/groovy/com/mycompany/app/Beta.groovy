@@ -25,33 +25,12 @@ public class Beta
     	  //error "red rover3 ${TEST_STACK_IP}:8080/green/timer/status $mickey" 
         //}
 
-        def DEFAULT_PAUSE_FOR_USERDATA_COMPLETION = 0*60 //that's 0m
         def test = [
           [ "http://saynext.redf4rth.net:8080/my-starter-app/prompt/font", /js>/ ],
           [ "http://geoserver.redf4rth.net/geoserver/web/", /org.geoserver.web.GeoServerBasePage/ ],
           [ "http://gocontainer.redf4rth.net:8080/green/timer/status",/4444444444/ ],
           [ "http://www.clarabridge.com", /301 Moved Permanently/]
         ]
-
-        def env = System.getenv()
-        if (env['PAUSE_FOR_USERDATA_COMPLETION']) {
-          println "Groovy is pausing: ${env['PAUSE_FOR_USERDATA_COMPLETION']}"
-          sleep 1000*env['PAUSE_FOR_USERDATA_COMPLETION'].toInteger()
-        }
-        else {
-          println "Groovy is pausing the default $DEFAULT_PAUSE_FOR_USERDATA_COMPLETION"
-          sleep 1000*DEFAULT_PAUSE_FOR_USERDATA_COMPLETION
-        }
-
-        //Groovy won't run the job in background, even with the &
-        def mydir = ["pwd"].execute().text
-        println "I'm groovy. My dir is $mydir"
-        
-        def launch = ["./gocontainer-phantom-public/ubuntu/launch-phantom-in-background"].execute().text
-        println "I'm groovy $launch"
-        
-        def myls =  ["ls"].execute().text
-        println "I'm groovy (again). My ls is $myls"
 
         def iRecognize = []
         for (int i=0; i<test.size(); i++) {
