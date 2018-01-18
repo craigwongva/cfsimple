@@ -48,7 +48,7 @@ public class Beta
         println "I'm groovy. My dir is $mydir"
         
         def launch = ["./gocontainer-phantom-public/ubuntu/launch-phantom-in-background"].execute().text
-        println "I'm groovy"
+        println "I'm groovy $launch"
         
         def myls =  ["ls"].execute().text
         println "I'm groovy (again). My ls is $myls"
