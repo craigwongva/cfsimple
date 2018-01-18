@@ -25,9 +25,53 @@ phases:
       - cd $DIR_AT_START
       
       - if  [ -z $PAUSE_FOR_USERDATA_COMPLETION ]  ; then sleep 1200 ; else sleep $PAUSE_FOR_USERDATA_COMPLETION ; fi
-      - cat gocontainer-phantom-public/ubuntu/invoke-phantom.js
+#      - cat gocontainer-phantom-public/ubuntu/invoke-phantom.js
       - /usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js &
-      - sleep 120
+      - echo TRIAL01
+      - sleep 60
+      - curl gocontainer.redf4rth.net:8080/green/timer/status
+      - echo TRIAL02
+      - sleep 60
+      - curl gocontainer.redf4rth.net:8080/green/timer/status
+      - echo TRIAL03
+      - sleep 60
+      - curl gocontainer.redf4rth.net:8080/green/timer/status
+      - echo TRIAL04
+      - sleep 60
+      - curl gocontainer.redf4rth.net:8080/green/timer/status
+      - echo TRIAL05
+      - sleep 60
+      - curl gocontainer.redf4rth.net:8080/green/timer/status
+      - echo TRIAL06
+      - sleep 60
+      - curl gocontainer.redf4rth.net:8080/green/timer/status
+      - echo TRIAL07
+      - sleep 60
+      - curl gocontainer.redf4rth.net:8080/green/timer/status
+      - echo TRIAL08
+      - sleep 60
+      - curl gocontainer.redf4rth.net:8080/green/timer/status
+      - echo TRIAL09
+      - sleep 60
+      - curl gocontainer.redf4rth.net:8080/green/timer/status
+      - echo TRIAL10
+      - sleep 60
+      - curl gocontainer.redf4rth.net:8080/green/timer/status
+      - echo TRIAL11
+      - sleep 60
+      - curl gocontainer.redf4rth.net:8080/green/timer/status
+      - echo TRIAL12
+      - sleep 60
+      - curl gocontainer.redf4rth.net:8080/green/timer/status
+      - echo TRIAL13
+      - sleep 60
+      - curl gocontainer.redf4rth.net:8080/green/timer/status
+      - echo TRIAL14
+      - sleep 60
+      - curl gocontainer.redf4rth.net:8080/green/timer/status
+      - echo TRIAL15
+      - sleep 60
+      - curl gocontainer.redf4rth.net:8080/green/timer/status
       
       - mvn package > keep_stdout_readable
 
