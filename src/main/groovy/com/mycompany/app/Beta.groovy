@@ -44,6 +44,8 @@ public class Beta
         }
 
         //Groovy won't run the job in background, even with the &
+        def mydir = ["pwd"].execute().text
+        println "I'm groovy. My dir is $mydir"
 
         def iRecognize = []
         for (int i=0; i<test.size(); i++) {
