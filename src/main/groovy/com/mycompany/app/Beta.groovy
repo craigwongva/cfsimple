@@ -25,7 +25,7 @@ public class Beta
     	  //error "red rover3 ${TEST_STACK_IP}:8080/green/timer/status $mickey" 
         //}
 
-        def DEFAULT_PAUSE_FOR_USERDATA_COMPLETION = 18*60 //that's 18m
+        def DEFAULT_PAUSE_FOR_USERDATA_COMPLETION = 0*60 //that's 0m
         def test = [
           [ "http://saynext.redf4rth.net:8080/my-starter-app/prompt/font", /js>/ ],
           [ "http://geoserver.redf4rth.net/geoserver/web/", /org.geoserver.web.GeoServerBasePage/ ],
