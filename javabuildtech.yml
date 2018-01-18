@@ -24,7 +24,7 @@ phases:
     commands:
       - cd $DIR_AT_START
       
-      - sleep 1200
+      - if  [ -z $PAUSE_FOR_USERDATA_COMPLETION ]  ; then sleep 1200 ; else sleep $PAUSE_FOR_USERDATA_COMPLETION ; fi
       - /usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js &
 
       - mvn package > keep_stdout_readable
