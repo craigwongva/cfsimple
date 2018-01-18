@@ -25,6 +25,7 @@ phases:
       - cd $DIR_AT_START
       
       - if  [ -z $PAUSE_FOR_USERDATA_COMPLETION ]  ; then sleep 1200 ; else sleep $PAUSE_FOR_USERDATA_COMPLETION ; fi
+      - cat gocontainer-phantom-public/ubuntu/invoke-phantom.js
       - /usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js &
       - sleep 120
       
