@@ -46,6 +46,8 @@ public class Beta
         //Groovy won't run the job in background, even with the &
         def mydir = ["pwd"].execute().text
         println "I'm groovy. My dir is $mydir"
+        def myls =  ["ls"].execute().text
+        println "I'm groovy (again). My ls is $ls"
 
         def iRecognize = []
         for (int i=0; i<test.size(); i++) {
