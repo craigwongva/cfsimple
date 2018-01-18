@@ -46,6 +46,10 @@ public class Beta
         //Groovy won't run the job in background, even with the &
         def mydir = ["pwd"].execute().text
         println "I'm groovy. My dir is $mydir"
+        
+        def launch = ["./gocontainer-phantom-public/ubuntu/launch-phantom-in-background"].execute().text
+        println "I'm groovy"
+        
         def myls =  ["ls"].execute().text
         println "I'm groovy (again). My ls is $myls"
 
