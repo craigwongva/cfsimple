@@ -20,106 +20,6 @@ phases:
   build:
     commands:
       - echo empty build stage, oh well `pwd`
-  post_build:
-    commands:
-      - cd $DIR_AT_START
-      
-      - if  [ -z $PAUSE_FOR_USERDATA_COMPLETION ]  ; then sleep 1200 ; else sleep $PAUSE_FOR_USERDATA_COMPLETION ; fi
-#      - cat gocontainer-phantom-public/ubuntu/invoke-phantom.js
-      - /usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js >> /tmp/output &
-      - echo TRIAL01
-      - cat /tmp/output
-      - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
-      - /usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js >> /tmp/output &
-      - echo TRIAL02
-      - cat /tmp/output
-      - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
-      - /usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js >> /tmp/output &
-      - echo TRIAL03
-      - cat /tmp/output
-      - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
-      - /usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js >> /tmp/output &
-      - echo TRIAL04
-      - cat /tmp/output
-      - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
-      - /usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js >> /tmp/output &
-      - echo TRIAL05
-      - cat /tmp/output
-      - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
-      - echo TRIAL06
-      - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
-      - echo TRIAL07
-      - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
-      - echo TRIAL08
-      - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
-      - echo TRIAL09
-      - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
-      - echo TRIAL10
-      - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
-      - echo TRIAL11
-      - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
-      - echo TRIAL12
-      - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
-      - echo TRIAL13
-      - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
-      - echo TRIAL14
-      - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
-      - echo TRIAL15
-      - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
-      - echo TRIAL16
-      - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
-      - echo TRIAL17
-      - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
-      - echo TRIAL18
-      - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
-      - echo TRIAL19
-      - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
-      - echo TRIAL20
-      - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
-      - echo TRIAL21
-      - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
-      - echo TRIAL22
-      - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
-      - echo TRIAL23
-      - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
-      - echo TRIAL24
-      - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
-      - echo TRIAL25
-      - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
-      - echo TRIAL26
-      - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
-      - echo TRIAL27
-      - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
-      
-      - mvn package > keep_stdout_readable
-
       - PUBLICIP=`curl http://checkip.amazonaws.com/32`
 
       - TEMP_SAYNEXT_SECGRP=`aws ec2 describe-security-groups --region us-west-2 | jq '.SecurityGroups | .[] | select((.GroupName | contains("saynext"))) | .GroupId' | sed s/\"//g`
@@ -130,6 +30,133 @@ phases:
 
       - TEMP_GOCONTAINER_SECGRP=`aws ec2 describe-security-groups --region us-west-2 | jq '.SecurityGroups | .[] | select((.GroupName | contains("gocontainer"))) | .GroupId' | sed s/\"//g`
       - aws ec2 authorize-security-group-ingress --group-id $TEMP_GOCONTAINER_SECGRP --cidr $PUBLICIP/32 --port 8080 --protocol tcp --region us-west-2 || true
+      
+  post_build:
+    commands:
+      - cd $DIR_AT_START
+      
+      - if  [ -z $PAUSE_FOR_USERDATA_COMPLETION ]  ; then sleep 1200 ; else sleep $PAUSE_FOR_USERDATA_COMPLETION ; fi
+#      - cat gocontainer-phantom-public/ubuntu/invoke-phantom.js
+      - /usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js >> /tmp/output &
+      - echo TRIAL01
+      - cat /tmp/output
+      - sleep 60
+      - pkill -f phantomjs || true
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - /usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js >> /tmp/output &
+      - echo TRIAL02
+      - cat /tmp/output
+      - sleep 60
+      - pkill -f phantomjs || true
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - /usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js >> /tmp/output &
+      - echo TRIAL03
+      - cat /tmp/output
+      - sleep 60
+      - pkill -f phantomjs || true
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - /usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js >> /tmp/output &
+      - echo TRIAL04
+      - cat /tmp/output
+      - sleep 60
+      - pkill -f phantomjs || true
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - /usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js >> /tmp/output &
+      - echo TRIAL05
+      - cat /tmp/output
+      - sleep 60
+      - pkill -f phantomjs || true
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - echo TRIAL06
+      - sleep 60
+      - pkill -f phantomjs || true
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - echo TRIAL07
+      - sleep 60
+      - pkill -f phantomjs || true
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - echo TRIAL08
+      - sleep 60
+      - pkill -f phantomjs || true
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - echo TRIAL09
+      - sleep 60
+      - pkill -f phantomjs || true
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - echo TRIAL10
+      - sleep 60
+      - pkill -f phantomjs || true
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - echo TRIAL11
+      - sleep 60
+      - pkill -f phantomjs || true
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - echo TRIAL12
+      - sleep 60
+      - pkill -f phantomjs || true
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - echo TRIAL13
+      - sleep 60
+      - pkill -f phantomjs || true
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - echo TRIAL14
+      - sleep 60
+      - pkill -f phantomjs || true
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - echo TRIAL15
+      - sleep 60
+      - pkill -f phantomjs || true
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - echo TRIAL16
+      - sleep 60
+      - pkill -f phantomjs || true
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - echo TRIAL17
+      - sleep 60
+      - pkill -f phantomjs || true
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - echo TRIAL18
+      - sleep 60
+      - pkill -f phantomjs || true
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - echo TRIAL19
+      - sleep 60
+      - pkill -f phantomjs || true
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - echo TRIAL20
+      - sleep 60
+      - pkill -f phantomjs || true
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - echo TRIAL21
+      - sleep 60
+      - pkill -f phantomjs || true
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - echo TRIAL22
+      - sleep 60
+      - pkill -f phantomjs || true
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - echo TRIAL23
+      - sleep 60
+      - pkill -f phantomjs || true
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - echo TRIAL24
+      - sleep 60
+      - pkill -f phantomjs || true
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - echo TRIAL25
+      - sleep 60
+      - pkill -f phantomjs || true
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - echo TRIAL26
+      - sleep 60
+      - pkill -f phantomjs || true
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - echo TRIAL27
+      - sleep 60
+      - pkill -f phantomjs || true
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      
+      - mvn package > keep_stdout_readable
 
       - mvn exec:java -Dexec.mainClass="com.mycompany.app.Beta" || true
 
