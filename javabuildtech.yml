@@ -36,9 +36,10 @@ phases:
       - cd $DIR_AT_START
       
       - if  [ -z $PAUSE_FOR_USERDATA_COMPLETION ]  ; then sleep 1200 ; else sleep $PAUSE_FOR_USERDATA_COMPLETION ; fi
-      - cat gocontainer-phantom-public/ubuntu/invoke-phantom.js
-      - /usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js >> /tmp/output &
 
+      - /usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js >> /tmp/output &
+      - sleep 180 #PAUSE_FOR_GOCONTAINER_10x10_COMPLETION
+      
       - mvn package > keep_stdout_readable
 
       - mvn exec:java -Dexec.mainClass="com.mycompany.app.Beta" || true
