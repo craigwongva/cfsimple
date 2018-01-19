@@ -29,85 +29,85 @@ phases:
       - /usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js &
       - echo TRIAL01
       - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
       - echo TRIAL02
       - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
       - echo TRIAL03
       - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
       - echo TRIAL04
       - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
       - echo TRIAL05
       - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
       - echo TRIAL06
       - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
       - echo TRIAL07
       - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
       - echo TRIAL08
       - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
       - echo TRIAL09
       - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
       - echo TRIAL10
       - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
       - echo TRIAL11
       - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
       - echo TRIAL12
       - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
       - echo TRIAL13
       - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
       - echo TRIAL14
       - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
       - echo TRIAL15
       - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
       - echo TRIAL16
       - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
       - echo TRIAL17
       - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
       - echo TRIAL18
       - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
       - echo TRIAL19
       - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
       - echo TRIAL20
       - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
       - echo TRIAL21
       - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
       - echo TRIAL22
       - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
       - echo TRIAL23
       - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
       - echo TRIAL24
       - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
       - echo TRIAL25
       - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
       - echo TRIAL26
       - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
       - echo TRIAL27
       - sleep 60
-      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status
+      - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
       
       - mvn package > keep_stdout_readable
 
