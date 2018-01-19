@@ -36,25 +36,28 @@ phases:
       - cd $DIR_AT_START
       
       - if  [ -z $PAUSE_FOR_USERDATA_COMPLETION ]  ; then sleep 1200 ; else sleep $PAUSE_FOR_USERDATA_COMPLETION ; fi
-#      - cat gocontainer-phantom-public/ubuntu/invoke-phantom.js
+      - cat gocontainer-phantom-public/ubuntu/invoke-phantom.js
       - /usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js >> /tmp/output &
       - echo TRIAL01
       - cat /tmp/output
       - sleep 60
       - pkill -f phantomjs || true
       - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - cat gocontainer-phantom-public/ubuntu/invoke-phantom.js
       - /usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js >> /tmp/output &
       - echo TRIAL02
       - cat /tmp/output
       - sleep 60
       - pkill -f phantomjs || true
       - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - cat gocontainer-phantom-public/ubuntu/invoke-phantom.js
       - /usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js >> /tmp/output &
       - echo TRIAL03
       - cat /tmp/output
       - sleep 60
       - pkill -f phantomjs || true
       - curl --max-time 10 gocontainer.redf4rth.net:8080/green/timer/status || true
+      - cat gocontainer-phantom-public/ubuntu/invoke-phantom.js
       - /usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js >> /tmp/output &
       - echo TRIAL04
       - cat /tmp/output

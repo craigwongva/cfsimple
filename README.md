@@ -1,3 +1,8 @@
+See thu04 for create-stack command.
+
+See test for deletion sequence when testing many of the stack creations.
+
+--
 This site is a combination of:
 * https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-basic-walkthrough.html
 * https://github.com/awslabs/codepipeline-nested-cfn
