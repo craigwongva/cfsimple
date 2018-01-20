@@ -320,7 +320,8 @@ Resources:
               Configuration:
                 ActionMode: REPLACE_ON_FAILURE
                 RoleArn: !GetAtt [CFNRole, Arn]
-                StackName: Wordpress-tegola
+#                StackName: Wordpress-tegola
+                StackName: tegola
                 TemplateConfiguration: ReposConfigFileArtifact::stack-config.json
                 TemplatePath: TegolaRepoArtifact::cf.json
               RunOrder: 4              
