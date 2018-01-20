@@ -40,7 +40,7 @@ phases:
 
       - /usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js >> /tmp/output &
       - SLEEP_FOR_GOCONTAINER_10x10_COMPLETION=1 #180
-      - sleep SLEEP_FOR_GOCONTAINER_10x10_COMPLETION
+      - sleep $SLEEP_FOR_GOCONTAINER_10x10_COMPLETION
       
       - mvn package > keep_stdout_readable
 
