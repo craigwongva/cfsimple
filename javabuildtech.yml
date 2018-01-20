@@ -10,10 +10,10 @@ phases:
       - chmod +x jq-linux64
       - sudo mv jq-linux64 /usr/bin/jq
       #Install phantomjs
-      - cd $DIR_AT_START
-      - git clone http://github.com/craigwongva/gocontainer-phantom-public
-      - gocontainer-phantom-public/ubuntu/install-phantom
-      - BUILD_ID=dontKillMe 
+#      - cd $DIR_AT_START
+#      - git clone http://github.com/craigwongva/gocontainer-phantom-public
+#      - gocontainer-phantom-public/ubuntu/install-phantom
+#      - BUILD_ID=dontKillMe 
 
   build:
     commands:
@@ -39,7 +39,7 @@ phases:
       
       - if  [ -z $PAUSE_FOR_USERDATA_COMPLETION ]  ; then sleep $SLEEP_DEFAULT ; else sleep $PAUSE_FOR_USERDATA_COMPLETION ; fi
 
-      - /usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js >> /tmp/output &
+#      - /usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js >> /tmp/output &
       - SLEEP_FOR_GOCONTAINER_10x10_COMPLETION=1 #180
       - sleep $SLEEP_FOR_GOCONTAINER_10x10_COMPLETION
       
