@@ -28,8 +28,9 @@ phases:
       - TEMP_GOCONTAINER_SECGRP=`aws ec2 describe-security-groups --region us-west-2 | jq '.SecurityGroups | .[] | select((.GroupName | contains("gocontainer"))) | .GroupId' | sed s/\"//g`
       - aws ec2 authorize-security-group-ingress --group-id $TEMP_GOCONTAINER_SECGRP --cidr $PUBLICIP/32 --port 8080 --protocol tcp --region us-west-2 || true
 
-      - TEMP_GOCONTAINER_SECGRP=`aws ec2 describe-security-groups --region us-west-2 | jq '.SecurityGroups | .[] | select((.GroupName | contains("tegola"))) | .GroupId' | sed s/\"//g`
-      - aws ec2 authorize-security-group-ingress --group-id $TEMP_GOCONTAINER_SECGRP --cidr $PUBLICIP/32 --port 8081 --protocol tcp --region us-west-2 || true
+      - TEMP_TEGOLA_SECGRP=`aws ec2 describe-security-groups --region us-west-2 | jq '.SecurityGroups | .[] | select((.GroupName | contains("tegola"))) | .GroupId' | sed s/\"//g`
+      - aws ec2 authorize-security-group-ingress --group-id $TEMP_TEGOLA_SECGRP --cidr $PUBLICIP/32 --port 8081 --protocol tcp --region us-west-2 || true
+
       - SLEEP_DEFAULT=1 #1200
       
   post_build:
