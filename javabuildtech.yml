@@ -14,12 +14,9 @@ phases:
       - git clone http://github.com/craigwongva/gocontainer-phantom-public
       - gocontainer-phantom-public/ubuntu/install-phantom
       - BUILD_ID=dontKillMe 
-#      - gocontainer-phantom-public/ubuntu/invoke-phantom gocontainer.redf4rth.net
-#      - cat gocontainer-phantom-public/ubuntu/invoke-phantom.js
 
   build:
     commands:
-      - echo empty build stage, oh well `pwd`
       - PUBLICIP=`curl http://checkip.amazonaws.com/32`
 
       - TEMP_SAYNEXT_SECGRP=`aws ec2 describe-security-groups --region us-west-2 | jq '.SecurityGroups | .[] | select((.GroupName | contains("saynext"))) | .GroupId' | sed s/\"//g`
@@ -30,15 +27,20 @@ phases:
 
       - TEMP_GOCONTAINER_SECGRP=`aws ec2 describe-security-groups --region us-west-2 | jq '.SecurityGroups | .[] | select((.GroupName | contains("gocontainer"))) | .GroupId' | sed s/\"//g`
       - aws ec2 authorize-security-group-ingress --group-id $TEMP_GOCONTAINER_SECGRP --cidr $PUBLICIP/32 --port 8080 --protocol tcp --region us-west-2 || true
+
+      - TEMP_GOCONTAINER_SECGRP=`aws ec2 describe-security-groups --region us-west-2 | jq '.SecurityGroups | .[] | select((.GroupName | contains("tegola"))) | .GroupId' | sed s/\"//g`
+      - aws ec2 authorize-security-group-ingress --group-id $TEMP_GOCONTAINER_SECGRP --cidr $PUBLICIP/32 --port 8081 --protocol tcp --region us-west-2 || true
+      - SLEEP_DEFAULT=1 #1200
       
   post_build:
     commands:
       - cd $DIR_AT_START
       
-      - if  [ -z $PAUSE_FOR_USERDATA_COMPLETION ]  ; then sleep 1200 ; else sleep $PAUSE_FOR_USERDATA_COMPLETION ; fi
+      - if  [ -z $PAUSE_FOR_USERDATA_COMPLETION ]  ; then sleep $SLEEP_DEFAULT ; else sleep $PAUSE_FOR_USERDATA_COMPLETION ; fi
 
       - /usr/bin/phantomjs gocontainer-phantom-public/ubuntu/invoke-phantom.js >> /tmp/output &
-      - sleep 180 #PAUSE_FOR_GOCONTAINER_10x10_COMPLETION
+      - SLEEP_FOR_GOCONTAINER_10x10_COMPLETION=1 #180
+      - sleep SLEEP_FOR_GOCONTAINER_10x10_COMPLETION
       
       - mvn package > keep_stdout_readable
 
