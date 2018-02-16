@@ -175,7 +175,7 @@ Resources:
         Image: craigwongva/grails240:grails240
       Source:
         Location: https://github.com/craigwongva/microcero
-        BuildSpec: buildspec.yml
+        BuildSpec: craigspec.yml
         Type: GITHUB
         Auth: 
           Type: OAUTH
