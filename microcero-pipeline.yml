@@ -1,0 +1,392 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Parameters:
+  githubpassword:
+    Type: String
+
+Resources:
+  ArtifactStoreBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      VersioningConfiguration:
+        Status: Enabled
+  PipelineRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: ['sts:AssumeRole']
+          Effect: Allow
+          Principal:
+            Service: [codepipeline.amazonaws.com]
+        Version: '2012-10-17'
+      Path: /
+      Policies:
+        - PolicyName: CodePipelineAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                - 's3:*'
+                - 'cloudformation:CreateStack'
+                - 'cloudformation:DescribeStacks'
+                - 'cloudformation:DeleteStack'
+                - 'cloudformation:UpdateStack'
+                - 'cloudformation:CreateChangeSet'
+                - 'cloudformation:ExecuteChangeSet'
+                - 'cloudformation:DeleteChangeSet'
+                - 'cloudformation:DescribeChangeSet'
+                - 'cloudformation:SetStackPolicy'
+                - 'iam:PassRole'
+                - 'sns:Publish'
+                - 'codebuild:*'
+                Effect: Allow
+                Resource: '*'
+  CFNRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: ['sts:AssumeRole']
+          Effect: Allow
+          Principal:
+            Service: [cloudformation.amazonaws.com]
+        Version: '2012-10-17'
+      Path: /
+      Policies:
+        - PolicyName: CloudFormationRole
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                  - 'ec2:*'
+                  - 'IAM:PassRole'
+                Effect: Allow
+                Resource: '*'          
+  CodeBuildRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName:
+        Fn::Sub: CodeBuildRole-${AWS::StackName}
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Principal:
+              Service:
+                - "codebuild.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+      Policies:
+        -
+          PolicyName: "CodeBuildNestedCFNAccessPolicy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              -
+                Effect: "Allow"
+                Action:
+                  - "cloudformation:Get*"
+                  - "cloudformation:Describe*"
+                  - "cloudformation:List*"
+                Resource:
+                  - Fn::Sub: arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/Wordpress-${AWS::StackName}*
+              -
+                Effect: "Allow"
+                Action:
+                  - "codecommit:ListBranches"
+                  - "codecommit:ListRepositories"
+                  - "codecommit:BatchGetRepositories"
+                  - "codecommit:Get*"
+                  - "codecommit:GitPull"
+                Resource:
+                  - Fn::Sub: arn:aws:codecommit:${AWS::Region}:${AWS::AccountId}:wordpress-build-test
+              -
+                Effect: "Allow"
+                Action:
+                  - "ec2:Describe*"
+                  - "ec2:AuthorizeSecurityGroupIngress"
+                  - "cloudformation:ValidateTemplate"
+                  - "elasticloadbalancing:Describe*"
+                  - "autoscaling:Describe*"
+                  - "iam:Get*"
+                  - "iam:List*"
+                  - "logs:Describe*"
+                  - "logs:Get*"
+                  - "route53:ListResourceRecordSets"
+                  - "tag:Get*"
+                Resource:
+                  - "*"
+              -
+                Effect: "Allow"
+                Action:
+                  - "logs:CreateLogGroup"
+                  - "logs:CreateLogStream"
+                  - "logs:PutLogEvents"
+                Resource:
+                  - Fn::Sub: arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/*
+              -
+                Effect: "Allow"
+                Action:
+                  - "s3:PutObject"
+                  - "s3:GetObject"
+                  - "s3:GetObjectVersion"
+                  - "s3:ListBucket"
+                Resource:
+                  - Fn::Sub: arn:aws:s3:::codepipeline-${AWS::Region}-*
+                  - Fn::Sub: arn:aws:s3:::${ArtifactStoreBucket}/*
+                  - Fn::Sub: arn:aws:s3:::${ArtifactStoreBucket}/*
+  ProactiveDailyCodeBuildProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: ProactiveDaily
+      Description: Validate the resources created by CFN templates
+      ServiceRole:
+        Fn::GetAtt: [ CodeBuildRole, Arn ]
+      Artifacts:
+        Type: S3
+        Location: !Ref 'ArtifactStoreBucket'
+        Name: ProactiveDailyArtifact
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/java:openjdk-8
+      Source:
+        Location: https://github.com/craigwongva/wordpress-build-test
+        BuildSpec: javabuildtech.yml
+        Type: GITHUB
+        Auth: 
+          Type: OAUTH
+      TimeoutInMinutes: 60
+  M4CodeBuildProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: M4
+      Description: Run Grails inside a container
+      ServiceRole:
+        Fn::GetAtt: [ CodeBuildRole, Arn ]
+      Artifacts:
+        Type: S3
+        Location: !Ref 'ArtifactStoreBucket'
+        Name: M4DailyArtifact
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: craigwongva/grails240:grails240
+      Source:
+        Location: https://github.com/craigwongva/microcero
+        BuildSpec: buildspec.yml
+        Type: GITHUB
+        Auth: 
+          Type: OAUTH
+      TimeoutInMinutes: 5
+  Pipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      ArtifactStore:
+        Location: !Ref 'ArtifactStoreBucket'
+        Type: S3
+      DisableInboundStageTransitions: []
+      Name: wordpress-pipeline
+      RoleArn: !GetAtt [PipelineRole, Arn]
+      Stages:
+        - Name: Sourcing
+          Actions:
+            - Name: GetReposConfigFile
+              ActionTypeId:
+                Category: Source
+                Owner: AWS
+                Version: 1
+                Provider: S3
+              Configuration:
+                S3Bucket: redf4rth-private-wordpress-codebuild-config
+                S3ObjectKey: redf4rth-private-wordpress-codebuild-config.zip 
+              OutputArtifacts:
+                - Name: ReposConfigFileArtifact 
+              RunOrder: 1
+            - Name: GetSaynextRepo
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Version: 1
+                Provider: GitHub
+              Configuration:
+                Owner: craigwongva
+                Repo: saynext
+                PollForSourceChanges: false
+                Branch: three
+                OAuthToken: !Ref githubpassword
+              OutputArtifacts:
+                - Name: SaynextRepoArtifact 
+              RunOrder: 2
+            - Name: GetGeoserverRepo
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Version: 1
+                Provider: GitHub
+              Configuration:
+                Owner: craigwongva
+                Repo: geoserver-installer
+                PollForSourceChanges: false
+                Branch: master
+                OAuthToken: !Ref githubpassword
+              OutputArtifacts:
+                - Name: GeoserverRepoArtifact 
+              RunOrder: 2
+            - Name: GetGocontainerRepo
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Version: 1
+                Provider: GitHub
+              Configuration:
+                Owner: craigwongva
+                Repo: gocontainer
+                PollForSourceChanges: false
+                Branch: go
+                OAuthToken: !Ref githubpassword
+              OutputArtifacts:
+                - Name: GocontainerRepoArtifact 
+              RunOrder: 2
+            - Name: GetTegolaRepo
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Version: 1
+                Provider: GitHub
+              Configuration:
+                Owner: craigwongva
+                Repo: tegola
+                PollForSourceChanges: false
+                Branch: master
+                OAuthToken: !Ref githubpassword
+              OutputArtifacts:
+                - Name: TegolaRepoArtifact 
+              RunOrder: 2              
+            - Name: GetBuildspec
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Version: 1
+                Provider: GitHub
+              Configuration:
+                Owner: craigwongva
+                Repo: wordpress-build-test
+                PollForSourceChanges: false
+                Branch: master
+                OAuthToken: !Ref githubpassword
+              OutputArtifacts:
+                - Name: BuildspecArtifact 
+              RunOrder: 3
+            - Name: GetCraigspec
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Version: 1
+                Provider: GitHub
+              Configuration:
+                Owner: craigwongva
+                Repo: microcero
+                PollForSourceChanges: false
+                Branch: master
+                OAuthToken: !Ref githubpassword
+              OutputArtifacts:
+                - Name: CraigspecArtifact 
+              RunOrder: 4              
+        - Name: StacksCreation
+          Actions:
+#            - Name: CreateStackSaynext
+#              ActionTypeId:
+#                Category: Deploy
+#                Owner: AWS
+#                Provider: CloudFormation
+#                Version: '1'
+#              InputArtifacts:
+#                - Name: ReposConfigFileArtifact
+#                - Name: SaynextRepoArtifact
+#              Configuration:
+#                ActionMode: REPLACE_ON_FAILURE
+#                RoleArn: !GetAtt [CFNRole, Arn]
+#                StackName: Wordpress-saynext
+#                TemplateConfiguration: ReposConfigFileArtifact::stack-config.json
+#                TemplatePath: SaynextRepoArtifact::cf.json
+#              RunOrder: 4
+#            - Name: CreateStackGeoserver
+#              ActionTypeId:
+#                Category: Deploy
+#                Owner: AWS
+#                Provider: CloudFormation
+#                Version: '1'
+#              InputArtifacts:
+#                - Name: ReposConfigFileArtifact
+#                - Name: GeoserverRepoArtifact
+#              Configuration:
+#                ActionMode: REPLACE_ON_FAILURE
+#                RoleArn: !GetAtt [CFNRole, Arn]
+#                StackName: Wordpress-geoserver
+#                TemplateConfiguration: ReposConfigFileArtifact::stack-config.json
+#                TemplatePath: GeoserverRepoArtifact::cf.json
+#              RunOrder: 4
+#            - Name: CreateStackGocontainer
+#              ActionTypeId:
+#                Category: Deploy
+#                Owner: AWS
+#                Provider: CloudFormation
+#                Version: '1'
+#              InputArtifacts:
+#                - Name: ReposConfigFileArtifact
+#                - Name: GocontainerRepoArtifact
+#              Configuration:
+#                ActionMode: REPLACE_ON_FAILURE
+#                RoleArn: !GetAtt [CFNRole, Arn]
+#                StackName: Wordpress-gocontainer
+##                TemplateConfiguration: ReposConfigFileArtifact::stack-config.json
+#                TemplatePath: GocontainerRepoArtifact::cf-nexus-java.yaml
+#              RunOrder: 4
+            - Name: CreateStackTegola
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Provider: CloudFormation
+                Version: '1'
+              InputArtifacts:
+                - Name: ReposConfigFileArtifact
+                - Name: TegolaRepoArtifact
+              Configuration:
+                ActionMode: REPLACE_ON_FAILURE
+                RoleArn: !GetAtt [CFNRole, Arn]
+#                StackName: Wordpress-tegola
+                StackName: tegola
+                TemplateConfiguration: ReposConfigFileArtifact::stack-config.json
+                TemplatePath: TegolaRepoArtifact::cf.json
+              RunOrder: 4              
+        - Name: StacksValidation
+          Actions:
+            - Name: ValidateStacks
+              InputArtifacts:
+                - Name: CraigspecArtifact
+              ActionTypeId:
+                Category: Test
+                Owner: AWS
+                Version: 1
+                Provider: CodeBuild
+              Configuration:
+                ProjectName: M4
+              RunOrder: 5          
+#            - Name: ValidateStacks
+#              InputArtifacts:
+#                - Name: BuildspecArtifact
+#              ActionTypeId:
+#                Category: Test
+#                Owner: AWS
+#                Version: 1
+#                Provider: CodeBuild
+#              Configuration:
+#                ProjectName: ProactiveDaily
+#              RunOrder: 5
+Outputs:
+  artifactStoreBucketOutput:
+    Value: !Ref ArtifactStoreBucket
+    Export:
+      Name: wordpress-build-test-artifact-store-bucket
