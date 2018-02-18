@@ -294,8 +294,8 @@ Resources:
               OutputArtifacts:
                 - Name: CraigspecArtifact 
               RunOrder: 2              
-        - Name: StacksCreation
-          Actions:
+#        - Name: StacksCreation
+#          Actions:
 #            - Name: CreateStackSaynext
 #              ActionTypeId:
 #                Category: Deploy
@@ -386,6 +386,34 @@ Resources:
 #                Provider: CodeBuild
 #              Configuration:
 #                ProjectName: ProactiveDaily
+#              RunOrder: 5
+
+#InputArtifact CraigspecArtifact
+#ActionMode CREATE_UPDATE
+#Stack name Baguette
+#Template CraigspecArtifact::cf-ec2-get-artifact.yml
+#Template configuration CraigspecArtifact::cf-ec2-get-artifact-parms.json
+#CloudFormation service role arn:aws:iam:994238729631:role/wordpress-stack-CFNRole-KYB9NUK59ZYG
+        - Name: DeployMe
+          Actions:
+            - Name: DeployBaguette
+              ActionMode: CREATE_UPDATE
+              StackName: Baguette
+              InputArtifacts:
+                - Name: CraigspecArtifact
+              Template: CraigspecArtifact::cf-ec2-get-artifact.yml
+              TemplateConfiguration: CraigspecArtifact::cf-ec2-get-artifact-parms.json
+              RoleArn: !GetAtt [CFNRole, Arn]
+#Delete these:
+#              ActionTypeId:
+#                Category: Test
+#                Owner: AWS
+#                Version: 1
+#                Provider: CodeBuild
+#              Configuration:
+#                ProjectName: M4
+#              OutputArtifacts:                
+#                - Name: BagArtifact                 
 #              RunOrder: 5
 Outputs:
   artifactStoreBucketOutput:
