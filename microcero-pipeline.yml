@@ -278,7 +278,7 @@ Resources:
                 OAuthToken: !Ref githubpassword
               OutputArtifacts:
                 - Name: BuildspecArtifact 
-              RunOrder: 3
+              RunOrder: 2
             - Name: GetCraigspec
               ActionTypeId:
                 Category: Source
@@ -293,7 +293,7 @@ Resources:
                 OAuthToken: !Ref githubpassword
               OutputArtifacts:
                 - Name: CraigspecArtifact 
-              RunOrder: 4              
+              RunOrder: 2              
         - Name: StacksCreation
           Actions:
 #            - Name: CreateStackSaynext
