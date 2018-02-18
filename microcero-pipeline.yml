@@ -373,6 +373,8 @@ Resources:
                 Provider: CodeBuild
               Configuration:
                 ProjectName: M4
+              OutputArtifacts:                
+                - Name: AlphaArtifact                 
               RunOrder: 5          
 #            - Name: ValidateStacks
 #              InputArtifacts:
