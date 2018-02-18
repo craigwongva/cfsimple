@@ -374,7 +374,7 @@ Resources:
               Configuration:
                 ProjectName: M4
               OutputArtifacts:                
-                - Name: AlphaArtifact                 
+                - Name: BagArtifact                 
               RunOrder: 5          
 #            - Name: ValidateStacks
 #              InputArtifacts:
