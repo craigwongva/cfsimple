@@ -249,21 +249,21 @@ Resources:
               OutputArtifacts:
                 - Name: GocontainerRepoArtifact 
               RunOrder: 2
-            - Name: GetTegolaRepo
-              ActionTypeId:
-                Category: Source
-                Owner: ThirdParty
-                Version: 1
-                Provider: GitHub
-              Configuration:
-                Owner: craigwongva
-                Repo: tegola
-                PollForSourceChanges: false
-                Branch: master
-                OAuthToken: !Ref githubpassword
-              OutputArtifacts:
-                - Name: TegolaRepoArtifact 
-              RunOrder: 2              
+#            - Name: GetTegolaRepo
+#              ActionTypeId:
+#                Category: Source
+#                Owner: ThirdParty
+#                Version: 1
+#                Provider: GitHub
+#              Configuration:
+#                Owner: craigwongva
+#                Repo: tegola
+#                PollForSourceChanges: false
+#                Branch: master
+#                OAuthToken: !Ref githubpassword
+#              OutputArtifacts:
+#                - Name: TegolaRepoArtifact 
+#              RunOrder: 2              
             - Name: GetBuildspec
               ActionTypeId:
                 Category: Source
@@ -344,23 +344,23 @@ Resources:
 ##                TemplateConfiguration: ReposConfigFileArtifact::stack-config.json
 #                TemplatePath: GocontainerRepoArtifact::cf-nexus-java.yaml
 #              RunOrder: 4
-            - Name: CreateStackTegola
-              ActionTypeId:
-                Category: Deploy
-                Owner: AWS
-                Provider: CloudFormation
-                Version: '1'
-              InputArtifacts:
-                - Name: ReposConfigFileArtifact
-                - Name: TegolaRepoArtifact
-              Configuration:
-                ActionMode: REPLACE_ON_FAILURE
-                RoleArn: !GetAtt [CFNRole, Arn]
-#                StackName: Wordpress-tegola
-                StackName: tegola
-                TemplateConfiguration: ReposConfigFileArtifact::stack-config.json
-                TemplatePath: TegolaRepoArtifact::cf.json
-              RunOrder: 4              
+#            - Name: CreateStackTegola
+#              ActionTypeId:
+#                Category: Deploy
+#                Owner: AWS
+#                Provider: CloudFormation
+#                Version: '1'
+#              InputArtifacts:
+#                - Name: ReposConfigFileArtifact
+#                - Name: TegolaRepoArtifact
+#              Configuration:
+#                ActionMode: REPLACE_ON_FAILURE
+#                RoleArn: !GetAtt [CFNRole, Arn]
+##                StackName: Wordpress-tegola
+#                StackName: tegola
+#                TemplateConfiguration: ReposConfigFileArtifact::stack-config.json
+#                TemplatePath: TegolaRepoArtifact::cf.json
+#              RunOrder: 4              
         - Name: StacksValidation
           Actions:
             - Name: ValidateStacks
