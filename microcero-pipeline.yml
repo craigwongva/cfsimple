@@ -397,13 +397,20 @@ Resources:
         - Name: DeployMe
           Actions:
             - Name: DeployBaguette
-              ActionMode: CREATE_UPDATE
-              StackName: Baguette
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Provider: CloudFormation
+                Version: '1'            
               InputArtifacts:
                 - Name: CraigspecArtifact
-              Template: CraigspecArtifact::cf-ec2-get-artifact.yml
-              TemplateConfiguration: CraigspecArtifact::cf-ec2-get-artifact-parms.json
-              RoleArn: !GetAtt [CFNRole, Arn]
+                - Name: BagArtifact
+              Configuration:
+                ActionMode: CREATE_UPDATE
+                RoleArn: !GetAtt [CFNRole, Arn]
+                StackName: Baguette
+                TemplatePath: CraigspecArtifact::cf-ec2-get-artifact.yml
+                TemplateConfiguration: CraigspecArtifact::cf-ec2-get-artifact-parms.json
 #Delete these:
 #              ActionTypeId:
 #                Category: Test
