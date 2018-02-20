@@ -204,51 +204,51 @@ Resources:
               OutputArtifacts:
                 - Name: ReposConfigFileArtifact 
               RunOrder: 1
-            - Name: GetSaynextRepo
-              ActionTypeId:
-                Category: Source
-                Owner: ThirdParty
-                Version: 1
-                Provider: GitHub
-              Configuration:
-                Owner: craigwongva
-                Repo: saynext
-                PollForSourceChanges: false
-                Branch: three
-                OAuthToken: !Ref githubpassword
-              OutputArtifacts:
-                - Name: SaynextRepoArtifact 
-              RunOrder: 2
-            - Name: GetGeoserverRepo
-              ActionTypeId:
-                Category: Source
-                Owner: ThirdParty
-                Version: 1
-                Provider: GitHub
-              Configuration:
-                Owner: craigwongva
-                Repo: geoserver-installer
-                PollForSourceChanges: false
-                Branch: master
-                OAuthToken: !Ref githubpassword
-              OutputArtifacts:
-                - Name: GeoserverRepoArtifact 
-              RunOrder: 2
-            - Name: GetGocontainerRepo
-              ActionTypeId:
-                Category: Source
-                Owner: ThirdParty
-                Version: 1
-                Provider: GitHub
-              Configuration:
-                Owner: craigwongva
-                Repo: gocontainer
-                PollForSourceChanges: false
-                Branch: go
-                OAuthToken: !Ref githubpassword
-              OutputArtifacts:
-                - Name: GocontainerRepoArtifact 
-              RunOrder: 2
+#            - Name: GetSaynextRepo
+#              ActionTypeId:
+#                Category: Source
+#                Owner: ThirdParty
+#                Version: 1
+#                Provider: GitHub
+#              Configuration:
+#                Owner: craigwongva
+#                Repo: saynext
+#                PollForSourceChanges: false
+#                Branch: three
+#                OAuthToken: !Ref githubpassword
+#              OutputArtifacts:
+#                - Name: SaynextRepoArtifact 
+#              RunOrder: 2
+#            - Name: GetGeoserverRepo
+#              ActionTypeId:
+#                Category: Source
+#                Owner: ThirdParty
+#                Version: 1
+#                Provider: GitHub
+#              Configuration:
+#                Owner: craigwongva
+#                Repo: geoserver-installer
+#                PollForSourceChanges: false
+#                Branch: master
+#                OAuthToken: !Ref githubpassword
+#              OutputArtifacts:
+#                - Name: GeoserverRepoArtifact 
+#              RunOrder: 2
+#            - Name: GetGocontainerRepo
+#              ActionTypeId:
+#                Category: Source
+#                Owner: ThirdParty
+#                Version: 1
+#                Provider: GitHub
+#              Configuration:
+#                Owner: craigwongva
+#                Repo: gocontainer
+#                PollForSourceChanges: false
+#                Branch: go
+#                OAuthToken: !Ref githubpassword
+#              OutputArtifacts:
+#                - Name: GocontainerRepoArtifact 
+#              RunOrder: 2
 #            - Name: GetTegolaRepo
 #              ActionTypeId:
 #                Category: Source
