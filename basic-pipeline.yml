@@ -4,6 +4,10 @@ Parameters:
     Type: String
 
 Resources:
+  myLogGroup: 
+    Type: "AWS::Logs::LogGroup"
+    Properties: 
+      LogGroupName: microcero-granja-catalina
   ArtifactStoreBucket:
     Type: AWS::S3::Bucket
     Properties:
