@@ -1,3 +1,11 @@
+I think there are two stacks now:
+- basic-pipeline.yml
+    - This is the big excellent stack that validates many projects like gocontainer.
+- simple-pipeline.yml
+    - This small stack builds/deploys Qoder.war, which writes to CloudWatch.
+    - This replaces microcero-pipeline.yml, which was derived from basic-pipeline.yml
+        but is deprecated in favor of simple-pipeline.yml.
+
 aws cloudformation create-stack --stack-name wordpress-stack --template-body file://microcero-pipeline.yml --region us-west-2 --capabilities CAPABILITY_NAMED_IAM --parameter ParameterKey=githubpassword,ParameterValue=REDACTED
 
 Seriously, see these two files for more README content:
