@@ -6,7 +6,9 @@ I think there are two stacks now:
     - This replaces microcero-pipeline.yml, which was derived from basic-pipeline.yml
         but is deprecated in favor of simple-pipeline.yml.
 
-aws cloudformation create-stack --stack-name wordpress-stack --template-body file://microcero-pipeline.yml --region us-west-2 --capabilities CAPABILITY_NAMED_IAM --parameter ParameterKey=githubpassword,ParameterValue=REDACTED
+How to create the stacks:
+- aws cloudformation create-stack --stack-name simple-stack --template-body file://simple-pipeline.yml --region us-west-2 --capabilities CAPABILITY_NAMED_IAM --parameter ParameterKey=githubpassword,ParameterValue=REDACTED
+- aws cloudformation create-stack --stack-name wordpress-stack --template-body file://basic-pipeline.yml --region us-west-2 --capabilities CAPABILITY_NAMED_IAM --parameter ParameterKey=githubpassword,ParameterValue=REDACTED
 
 Seriously, see these two files for more README content:
 * See thu04 for create-stack command.
